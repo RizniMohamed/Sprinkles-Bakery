@@ -10,12 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SprinklesBakery.NoActionBar">
         <activity
+            android:screenOrientation="portrait"
+            android:name=".Home"
+            android:exported="false" />
+        <activity
+            android:screenOrientation="portrait"
             android:name=".Register"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".Login"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>

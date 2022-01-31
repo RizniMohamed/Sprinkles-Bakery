@@ -1,6 +1,7 @@
 package com.riznicreation.sprinklesbakery;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +15,6 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splashscreen);
 
        new Handler().postDelayed( () -> {startActivity(new Intent(SplashScreen.this,Login.class)); finish();},3000);
-
-
 
     }
 }

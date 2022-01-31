@@ -2,6 +2,7 @@ package com.riznicreation.sprinklesbakery;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +21,8 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initViews();
+        startActivity(new Intent(this, Home.class));
+
     }
 
     private void initViews() {
@@ -29,4 +32,6 @@ public class Login extends AppCompatActivity {
         textForgetPassword = findViewById(R.id.textForgetPassword);
         textRegister = findViewById(R.id.textRegister);
     }
+
+
 }
