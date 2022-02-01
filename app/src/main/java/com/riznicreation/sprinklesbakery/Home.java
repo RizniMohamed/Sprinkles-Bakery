@@ -14,6 +14,7 @@ import com.riznicreation.sprinklesbakery.tabs.VPAdapter;
 
 public class Home extends AppCompatActivity {
 
+    //Declaration of global variables
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
     private TextView textHeader;
@@ -33,17 +34,18 @@ public class Home extends AppCompatActivity {
         VPAdapter adapter = new VPAdapter(getSupportFragmentManager(), getLifecycle());
         viewPager2.setAdapter(adapter);
 
+        //set pages for their respective tabs by tab selected listener
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager2.setCurrentItem(tab.getPosition());
+                //Set title of page according to their tabs
                 switch (tab.getPosition()){
-                    case 1: textHeader.setText("Order"); break;
-                    case 2: textHeader.setText("Cart"); break;
-                    case 3: textHeader.setText("Profile"); break;
-                    default: textHeader.setText("Home");
+                    case 1: textHeader.setText(R.string.order); break;
+                    case 2: textHeader.setText(R.string.cart); break;
+                    case 3: textHeader.setText(R.string.profile); break;
+                    default: textHeader.setText(R.string.Home);
                 }
-
             }
 
             @Override
@@ -53,6 +55,7 @@ public class Home extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) { }
         });
 
+        //Disable tab switching by swapping
         viewPager2.setUserInputEnabled(false);
     }
 
@@ -63,6 +66,7 @@ public class Home extends AppCompatActivity {
     }
 
 
+    //move whole application down when notch is present in the screen
     private void handleNotchScreen() {
         int statusBarHeight = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");

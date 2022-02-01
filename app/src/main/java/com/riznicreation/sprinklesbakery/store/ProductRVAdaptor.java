@@ -11,51 +11,54 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.riznicreation.sprinklesbakery.R;
-import com.riznicreation.sprinklesbakery.entity.Category;
+import com.riznicreation.sprinklesbakery.entity.Product;
 
 import java.util.ArrayList;
 
 //Recycle adapter class for generate repeater elements with various data
-public class CategoryRVAdaptor extends RecyclerView.Adapter<CategoryRVAdaptor.ViewHolder>{
+public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.ViewHolder>{
 
-    private ArrayList<Category> categories = new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
 
-    public void setCategories(ArrayList<Category> Category) {
-        this.categories = Category;
+    public void setProducts(ArrayList<Product> Product) {
+        this.products = Product;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //inflate the layout
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_category,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_product,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final Category category = categories.get(position);
+        final Product category = products.get(position);
         //set dynamic values for each elements
-        holder.btnIcon.setBackgroundResource(category.getIconID());
-        holder.name.setText(category.getName());
+//        holder.btnIcon.setBackgroundResource(category.getIconID());
+//        holder.name.setText(category.getName());
     }
 
     @Override
     public int getItemCount() {
-        return categories.size();
+        return products.size();
     }
 
     // Class which holds the elements view details
     public static class ViewHolder extends RecyclerView.ViewHolder{
         //view castings
-        private final ImageView btnIcon;
-        private final TextView name;
+        private final ImageView imgProduct;
+        private final TextView textWeight,textName,textPrice,textDiscount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             //View declarations
-            btnIcon = itemView.findViewById(R.id.btnIcon);
-            name = itemView.findViewById(R.id.name);
+            imgProduct = itemView.findViewById(R.id.imgProduct);
+            textWeight = itemView.findViewById(R.id.textWeight);
+            textName = itemView.findViewById(R.id.textName);
+            textPrice = itemView.findViewById(R.id.textPrice);
+            textDiscount = itemView.findViewById(R.id.textDiscount);
 
         }
     }

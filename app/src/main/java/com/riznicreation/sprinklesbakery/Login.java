@@ -21,6 +21,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initViews();
+
         startActivity(new Intent(this, Home.class));
 
     }

@@ -16,15 +16,16 @@ public class VPAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+        //get page for their respective tab
         switch (position){
             case 1:
-                return new Order();
+                return new Order();// returning order page
             case 2:
-                return new Cart();
+                return new Cart();// returning cart page
             case 3:
-                return new Profile();
+                return new Profile();// returning profile page
             default:
-                return new Store();
+                return new Store();// returning store page
         }
     }
 
