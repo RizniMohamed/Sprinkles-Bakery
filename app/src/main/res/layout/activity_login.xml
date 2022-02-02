@@ -67,9 +67,9 @@
                 android:layout_height="50dp"
                 android:hint="@string/password"
                 android:textColorHint="@color/black"
-                android:autofillHints="emailAddress"
+                android:autofillHints="password"
                 android:background="@drawable/roundedtextfield"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:paddingVertical="0dp"
                 android:textColor="@color/black"
                 android:textSize="15sp" />

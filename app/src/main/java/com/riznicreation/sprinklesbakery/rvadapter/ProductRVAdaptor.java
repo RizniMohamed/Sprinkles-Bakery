@@ -1,6 +1,7 @@
-package com.riznicreation.sprinklesbakery.store;
+package com.riznicreation.sprinklesbakery.rvadapter;
 
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,12 @@ import java.util.ArrayList;
 public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.ViewHolder>{
 
     private ArrayList<Product> products = new ArrayList<>();
+    private final Context context;
+
+
+    public ProductRVAdaptor(Context context) {
+        this.context = context;
+    }
 
     public void setProducts(ArrayList<Product> Product) {
         this.products = Product;
@@ -34,7 +41,8 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final Product category = products.get(position);
+        final Product product = products.get(position);
+        if(product.getDiscount() == 0) holder.textDiscount.setVisibility(View.GONE);
         //set dynamic values for each elements
 //        holder.btnIcon.setBackgroundResource(category.getIconID());
 //        holder.name.setText(category.getName());

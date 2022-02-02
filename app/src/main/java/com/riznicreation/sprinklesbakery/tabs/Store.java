@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.riznicreation.sprinklesbakery.R;
 import com.riznicreation.sprinklesbakery.entity.Category;
 import com.riznicreation.sprinklesbakery.entity.Product;
-import com.riznicreation.sprinklesbakery.store.CategoryRVAdaptor;
-import com.riznicreation.sprinklesbakery.store.ProductRVAdaptor;
+import com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor;
+import com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -35,12 +35,13 @@ public class Store extends Fragment {
         initAllCategories();
         initMostPopular();
         initSuperDeals();
+
+        //Set toggling expansion view for all categories
         setToggle(textAllCategories,categoryRV,4);
+        //Set toggling expansion view for most popular products
         setToggle(textMPViewAll,rvMostPopular,3);
+        //Set toggling expansion view for Special deal products
         setToggle(textSPViewAll,rvSuperDeals,3);
-
-
-
 
         return view;
     }
@@ -50,10 +51,10 @@ public class Store extends Fragment {
         textView.setOnClickListener(v -> {
             if(Objects.requireNonNull(recyclerView.getLayoutManager()).canScrollHorizontally()) {
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
-                textView.setText("View less <");
+                if(textView.getText().toString().contains("View")) textView.setText(R.string.view_less);
             }else {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                textView.setText(R.string.view_all);
+                if(textView.getText().toString().contains("View")) textView.setText(R.string.view_all);
             }
         });
 
@@ -62,17 +63,17 @@ public class Store extends Fragment {
     }
 
     private void initSuperDeals() {
-        ProductRVAdaptor prvAdaptor = new ProductRVAdaptor();
+        ProductRVAdaptor prvAdaptor = new ProductRVAdaptor(getContext());
         ArrayList<Product> products = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            products.add(new Product(0,"",0,"",0,0));
+            products.add(new Product(0,"",0,"",1,0));
         }
         prvAdaptor.setProducts(products);
         rvSuperDeals.setAdapter(prvAdaptor);
     }
 
     private void initMostPopular() {
-        ProductRVAdaptor prvAdaptor = new ProductRVAdaptor();
+        ProductRVAdaptor prvAdaptor = new ProductRVAdaptor(getContext());
         ArrayList<Product> products = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             products.add(new Product(0,"",0,"",0,0));
@@ -82,7 +83,7 @@ public class Store extends Fragment {
     }
 
     private void initAllCategories() {
-        CategoryRVAdaptor crvAdaptor = new CategoryRVAdaptor();
+        CategoryRVAdaptor crvAdaptor = new CategoryRVAdaptor(getContext());
         ArrayList<Category> categories = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             categories.add(new Category(i,"Birthday"+i,R.drawable.ic_cart));

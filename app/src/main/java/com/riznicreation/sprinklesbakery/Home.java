@@ -1,14 +1,19 @@
 package com.riznicreation.sprinklesbakery;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.riznicreation.sprinklesbakery.tabs.VPAdapter;
 
@@ -18,15 +23,86 @@ public class Home extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
     private TextView textHeader;
+    private ImageButton btnSearch,btnMenu;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        handleNotchScreen();
 
         initViews();
         initTabs();
+
+        //Open view product page for search and view items
+        btnSearch.setOnClickListener(v -> {
+            Intent intent = new Intent(this,ViewProduct.class);
+            startActivity(intent);
+        });
+
+
+
+
+
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        btnMenu.setOnClickListener(v -> {
+
+          drawerLayout.setVisibility(View.VISIBLE);
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
+        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                drawerLayout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
+            }
+        });
+        navigationView.setNavigationItemSelectedListener(item -> {
+
+
+            int id = item.getItemId();
+            drawerLayout.closeDrawer(GravityCompat.START);
+            switch (id) {
+                case R.id.menuDashboard:
+                    Toast.makeText(Home.this, "menuDashboard is Clicked", Toast.LENGTH_LONG).show();break;
+                case R.id.menuStore:
+                    Toast.makeText(Home.this, "menuStore is Clicked",Toast.LENGTH_LONG).show();break;
+                case R.id.menuOrder:
+                    Toast.makeText(Home.this, "menuOrder is Clicked",Toast.LENGTH_LONG).show();break;
+                case R.id.menuCart:
+                    Toast.makeText(Home.this, "menuCart is Clicked",Toast.LENGTH_LONG).show();break;
+                case R.id.menuProfile:
+                    Toast.makeText(Home.this, "menuProfile is Clicked",Toast.LENGTH_LONG).show();break;
+                case R.id.menuReport:
+                    Toast.makeText(Home.this, "menuReport is Clicked",Toast.LENGTH_LONG).show();break;
+                case R.id.menuAuth:
+                    Toast.makeText(Home.this, "menuAuth is clicked",Toast.LENGTH_LONG).show();break;
+                 default:
+                    return true;
+            }
+            return true;
+        });
+
+
+
 
     }
 
@@ -63,25 +139,7 @@ public class Home extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager2 = findViewById(R.id.viewPager2);
         textHeader = findViewById(R.id.textHeader);
-    }
-
-
-    //move whole application down when notch is present in the screen
-    private void handleNotchScreen() {
-        int statusBarHeight = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-        }
-        if (statusBarHeight > convertDpToPixel(24)) {
-            LinearLayout LLMain = findViewById(R.id.LLMain);
-            LLMain.setPadding(0, statusBarHeight - convertDpToPixel(15), 0, 0);
-        }
-    }
-
-    private int convertDpToPixel(float dp) {
-        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        float px = dp * (metrics.densityDpi / 160f);
-        return Math.round(px);
+        btnSearch = findViewById(R.id.btnSearch);
+        btnMenu = findViewById(R.id.btnMenu);
     }
 }

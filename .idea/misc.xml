@@ -9,12 +9,17 @@
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/activity_splashscreen.xml" value="0.2" />
-        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/fragment_cart.xml" value="0.25" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/activity_view_product.xml" value="0.264" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/fragment_cart.xml" value="0.264" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/fragment_order.xml" value="0.25" />
-        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/fragment_profile.xml" value="0.5816901408450704" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/fragment_store.xml" value="0.25" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/nav_header.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/rv_category.xml" value="0.72" />
-        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/rv_product.xml" value="0.536" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/rv_list.xml" value="0.4" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/rv_order.xml" value="0.264" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/rv_product.xml" value="0.1" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/menu/nav_menu.xml" value="0.25" />
       </map>
     </option>
   </component>

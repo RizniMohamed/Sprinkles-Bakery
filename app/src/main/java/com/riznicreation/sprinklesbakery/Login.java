@@ -22,8 +22,8 @@ public class Login extends AppCompatActivity {
 
         initViews();
 
-        startActivity(new Intent(this, Home.class));
-
+        btnLogin.setOnClickListener(v -> startActivity(new Intent(this,Home.class)));
+        textRegister.setOnClickListener(v -> startActivity(new Intent(this,Register.class)));
     }
 
     private void initViews() {
@@ -34,5 +34,7 @@ public class Login extends AppCompatActivity {
         textRegister = findViewById(R.id.textRegister);
     }
 
+    @Override
+    public void onBackPressed() {}
 
 }

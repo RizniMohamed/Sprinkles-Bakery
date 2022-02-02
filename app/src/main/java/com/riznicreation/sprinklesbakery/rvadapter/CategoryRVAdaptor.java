@@ -1,6 +1,7 @@
-package com.riznicreation.sprinklesbakery.store;
+package com.riznicreation.sprinklesbakery.rvadapter;
 
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,11 @@ import java.util.ArrayList;
 public class CategoryRVAdaptor extends RecyclerView.Adapter<CategoryRVAdaptor.ViewHolder>{
 
     private ArrayList<Category> categories = new ArrayList<>();
+    private final Context context;
+
+    public CategoryRVAdaptor(Context context) {
+        this.context = context;
+    }
 
     public void setCategories(ArrayList<Category> Category) {
         this.categories = Category;

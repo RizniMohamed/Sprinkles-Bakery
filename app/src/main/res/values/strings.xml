@@ -23,4 +23,15 @@
     <string name="all_categories">All Categories</string>
     <string name="most_popular">Most popular</string>
     <string name="view_all"><![CDATA[View all >]]></string>
+    <string name="productImage">productImage</string>
+    <string name="profile_picture">profile picture</string>
+    <string name="button_remove">Button Remove</string>
+    <string name="product_name">Product Name</string>
+    <string name="delivered">Delivered</string>
+    <string name="search">Search</string>
+    <string name="_10kg">10KG</string>
+    <string name="cupcake">Cupcake</string>
+    <string name="lkr_100">LKR 100</string>
+    <string name="_10">10%</string>
+    <string name="view_less"><![CDATA[View less <]]></string>
 </resources>
