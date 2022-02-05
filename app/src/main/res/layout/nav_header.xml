@@ -4,6 +4,14 @@
     android:background="@color/primary"
     android:layout_height="100dp">
 
+    <ImageView
+        android:translationY="5dp"
+        android:layout_gravity="center"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:contentDescription="@string/logo"
+        android:src="@drawable/logo" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -11,7 +19,8 @@
         android:layout_gravity="center"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:layout_margin="20dp"
+        android:layout_marginVertical="20dp"
+        android:layout_marginStart="5dp"
         android:textColor="@color/white"/>
 
 </LinearLayout>

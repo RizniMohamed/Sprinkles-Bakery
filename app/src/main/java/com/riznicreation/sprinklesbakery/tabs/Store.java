@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.riznicreation.sprinklesbakery.R;
+import com.riznicreation.sprinklesbakery.db.DBHelper;
 import com.riznicreation.sprinklesbakery.entity.Category;
 import com.riznicreation.sprinklesbakery.entity.Product;
 import com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor;
@@ -25,6 +26,7 @@ public class Store extends Fragment {
 
     private RecyclerView categoryRV,rvMostPopular,rvSuperDeals;
     private TextView textAllCategories,textMPViewAll,textSPViewAll;
+    private DBHelper db;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,10 +86,7 @@ public class Store extends Fragment {
 
     private void initAllCategories() {
         CategoryRVAdaptor crvAdaptor = new CategoryRVAdaptor(getContext());
-        ArrayList<Category> categories = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            categories.add(new Category(i,"Birthday"+i,R.drawable.ic_cart));
-        }
+        ArrayList<Category> categories = db.category().getAll();
         crvAdaptor.setCategories(categories);
         categoryRV.setAdapter(crvAdaptor);
     }
@@ -99,5 +98,6 @@ public class Store extends Fragment {
         textSPViewAll = view.findViewById(R.id.textSPViewAll);
         rvMostPopular = view.findViewById(R.id.rvMostPopular);
         rvSuperDeals = view.findViewById(R.id.rvSuperDeals);
+        db  = new DBHelper(view.getContext());
     }
 }

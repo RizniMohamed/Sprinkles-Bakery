@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/drawable/ic_cake.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/drawable/roundedtextfield.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/drawable/roundedwight.xml" value="0.2625" />
-        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/activity_home.xml" value="0.152" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/activity_login.xml" value="0.264" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/activity_splashscreen.xml" value="0.2" />
@@ -14,7 +15,8 @@
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/fragment_order.xml" value="0.25" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/fragment_profile.xml" value="0.5816901408450704" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/fragment_store.xml" value="0.25" />
-        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/nav_header.xml" value="0.12760416666666666" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/layout_login_model.xml" value="0.25" />
+        <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/nav_header.xml" value="0.6" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/rv_category.xml" value="0.72" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/rv_list.xml" value="0.4" />
         <entry key="..\:/Users/mnriz/OneDrive/Desktop/AD/SprinklesBakery/app/src/main/res/layout/rv_order.xml" value="0.264" />

@@ -4,10 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.riznicreation.sprinklesbakery.db.DBHelper;
+import com.riznicreation.sprinklesbakery.helper.*;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Objects;
 
 public class Login extends AppCompatActivity {
 
@@ -22,8 +27,45 @@ public class Login extends AppCompatActivity {
 
         initViews();
 
-        btnLogin.setOnClickListener(v -> startActivity(new Intent(this,Home.class)));
-        textRegister.setOnClickListener(v -> startActivity(new Intent(this,Register.class)));
+        btnLogin.setOnClickListener(v -> {
+            if(validate()) {
+                startActivity(new Intent(this, Home.class));
+                finish();
+            }
+        });
+        textRegister.setOnClickListener(v -> {
+            startActivity(new Intent(this, Register.class));
+            finish();
+        });
+    }
+
+    private boolean validate() {
+        //Check empty fields
+        String email = Objects.requireNonNull(txtEmail.getText()).toString();
+        String password = Objects.requireNonNull(txtPassword.getText()).toString();
+
+        if(email.isEmpty() || password.isEmpty()){
+            if (email.isEmpty())
+                Message.error(this,"Email cannot be empty");
+            if (password.isEmpty())
+                Message.error(this,"Password cannot be empty");
+        }else if (!(email.contains("@") && email.contains("."))){
+            Message.error(this,"Invalid email");
+        }else{
+            return validateInDB(email,password);
+        }
+
+
+        return false;
+    }
+
+    private boolean validateInDB(String email, String password) {
+        DBHelper db = new DBHelper(this);
+        if( !db.auth().login(email,password))
+            Message.error(this,"Login failed");
+        else
+            return true;
+        return false;
     }
 
     private void initViews() {

@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.riznicreation.sprinklesbakery.Login;
 import com.riznicreation.sprinklesbakery.R;
+import com.riznicreation.sprinklesbakery.db.DBHelper;
+import com.riznicreation.sprinklesbakery.helper.Message;
 
 public class Profile extends Fragment {
 
@@ -26,7 +28,11 @@ public class Profile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         initViews(view);
-        btnLogout.setOnClickListener(v -> startActivity(new Intent(getContext(), Login.class)));
+        btnLogout.setOnClickListener(v -> {
+            DBHelper db = new DBHelper(view.getContext());
+            if(!db.auth().logout()) Message.error(view.getContext(),"Error on logout");
+            else startActivity(new Intent(getContext(), Login.class));
+        });
 
         return view;
     }

@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/menuDashboard"
-        android:icon="@drawable/ic_storefront"
+        android:icon="@drawable/ic_dashboard"
         android:title="Dashboard"/>
     <item
         android:id="@+id/menuStore"
@@ -25,11 +25,10 @@
         android:title="Profile"/>
     <item
         android:id="@+id/menuReport"
-        android:icon="@drawable/ic_storefront"
+        android:icon="@drawable/ic_report"
         android:title="Report"/>
     <item
         android:id="@+id/menuAuth"
-        android:icon="@drawable/ic_storefront"
-        android:iconTint="@color/primary"
+        android:icon="@drawable/ic_login"
         android:title="Auth"/>
 </menu>

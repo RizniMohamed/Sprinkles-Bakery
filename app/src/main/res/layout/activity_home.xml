@@ -96,6 +96,7 @@
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:visibility="gone"
+        android:background="#92000000"
         android:id="@+id/drawer_layout"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
@@ -103,7 +104,7 @@
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation_view"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:background="@color/white"

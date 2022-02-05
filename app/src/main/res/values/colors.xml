@@ -12,5 +12,9 @@
     <color name="secondary">#FFB300</color>
     <color name="third">#E79A00</color>
 
+    <color name="success">#4CAF50</color>
+    <color name="info">#053CE4</color>
+    <color name="error">#F41010</color>
+
 
 </resources>

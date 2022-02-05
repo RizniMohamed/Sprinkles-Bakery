@@ -34,4 +34,62 @@
     <string name="lkr_100">LKR 100</string>
     <string name="_10">10%</string>
     <string name="view_less"><![CDATA[View less <]]></string>
+    <string name="create_tables">
+        BEGIN TRANSACTION;
+        CREATE TABLE IF NOT EXISTS Category (
+            category_id	INTEGER NOT NULL UNIQUE,
+            name	TEXT NOT NULL,
+            discount	INTEGER NOT NULL,
+            PRIMARY KEY(category_id AUTOINCREMENT)
+        );
+        CREATE TABLE IF NOT EXISTS Product (
+            product_id	INTEGER NOT NULL UNIQUE,
+            name	TEXT NOT NULL,
+            cream	TEXT NOT NULL,
+            flavour	TEXT NOT NULL,
+            unit_price	INTEGER NOT NULL,
+            category_id	INTEGER NOT NULL,
+            FOREIGN KEY(category_id) REFERENCES Category(category_id) ON UPDATE CASCADE ON DELETE CASCADE,
+            PRIMARY KEY(product_id AUTOINCREMENT)
+        );
+        CREATE TABLE IF NOT EXISTS Orders (
+            orders_id	INTEGER NOT NULL UNIQUE,
+            date	TEXT NOT NULL,
+            quantity	INTEGER NOT NULL,
+            status	INTEGER NOT NULL,
+            total_price	NUMERIC NOT NULL,
+            product_id	INTEGER NOT NULL,
+            FOREIGN KEY(product_id) REFERENCES Product(product_id) ON UPDATE CASCADE ON DELETE CASCADE,
+            PRIMARY KEY(orders_id AUTOINCREMENT)
+        );
+        CREATE TABLE IF NOT EXISTS User (
+            user_id	INTEGER NOT NULL UNIQUE,
+            name	TEXT NOT NULL,
+            contact	INTEGER NOT NULL,
+            image	TEXT,
+            orders_id	INTEGER NULL UNIQUE,
+            auth_id	INTEGER NOT NULL UNIQUE,
+            FOREIGN KEY(orders_id) REFERENCES Orders(orders_id) ON UPDATE CASCADE ON DELETE CASCADE,
+            FOREIGN KEY(auth_id) REFERENCES Auth(auth_id) ON UPDATE CASCADE ON DELETE CASCADE,
+            PRIMARY KEY(user_id AUTOINCREMENT)
+        );
+        CREATE TABLE IF NOT EXISTS Auth (
+            auth_id	INTEGER NOT NULL UNIQUE,
+            password	TEXT NOT NULL,
+            email	TEXT NOT NULL UNIQUE,
+            status	INTEGER NOT NULL,
+            PRIMARY KEY(auth_id AUTOINCREMENT)
+        );
+        COMMIT;
+    </string>
+    <string name="insert_data">
+        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'1\', \'Classic \', \'0\');
+        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'2\', \'Themed \', \'0\');
+        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'3\', \'Birthday\', \'0\');
+        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'4\', \'Anniversary\', \'0\');
+        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'5\', \'New Baby\', \'0\');
+        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'6\', \'Valentine’s Day\', \'0\');
+        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'7\', \'Graduation\', \'0\');
+        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'8\', \'Mother’s Day\', \'0\');
+    </string>
 </resources>
