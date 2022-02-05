@@ -1,34 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/white"
     tools:context=".tabs.Order">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_marginVertical="40dp"
+        android:id="@+id/btnPic"
+        android:layout_marginTop="40dp"
         android:layout_gravity="center"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/shadow"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         android:contentDescription="@string/profile_picture"
-        android:src="@mipmap/cake" />
+      />
+
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center"
+        android:text="Rizni Mohamed"
+        android:textAlignment="center"
+        android:textColor="#494848"
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:paddingHorizontal="15dp"
+        android:background="@drawable/toprounded"
+        android:backgroundTint="@color/primary"
         android:orientation="vertical"
-        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
+        android:paddingTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/textName">
+
+        <androidx.cardview.widget.CardView
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="5dp">
+
+            <TextView
+
+                android:id="@+id/btnName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@color/white"
+                android:text="Name"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold"
+
+                tools:layout_editor_absoluteX="38dp"
+                tools:layout_editor_absoluteY="320dp" />
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -37,13 +82,13 @@
             app:cardCornerRadius="5dp">
 
             <TextView
-                android:id="@+id/btnChangePassword"
+                android:id="@+id/btnContact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/secondary"
+                android:background="@color/white"
                 android:padding="10dp"
-                android:text="Change password"
-                android:textColor="@color/white"
+                android:text="Contact"
+                android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="38dp"
@@ -55,23 +100,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:elevation="10dp"
             app:cardCornerRadius="5dp">
 
             <TextView
-                android:id="@+id/btnChangeProfilePic"
+                android:id="@+id/btnPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/secondary"
+                android:background="@color/white"
                 android:padding="10dp"
-                android:text="Change profile picture"
-                android:textColor="@color/white"
+                android:text="Password"
+                android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="38dp"
                 tools:layout_editor_absoluteY="320dp" />
 
         </androidx.cardview.widget.CardView>
+
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -84,10 +130,10 @@
                 android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/secondary"
+                android:background="@color/white"
                 android:padding="10dp"
                 android:text="Logout"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="38dp"
@@ -99,4 +145,4 @@
     </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

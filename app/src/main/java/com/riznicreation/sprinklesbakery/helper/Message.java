@@ -16,7 +16,7 @@ public class Message {
         view.setBackgroundResource(R.drawable.roundedtextfield);
         view.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.error)));
 
-        TextView text = (TextView) view.findViewById(android.R.id.message);
+        TextView text = view.findViewById(android.R.id.message);
         text.setCompoundDrawablePadding(25);
         text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_error,0,0,0);
         text.setTextColor(Color.parseColor("#FFFFFF"));
@@ -28,7 +28,7 @@ public class Message {
         view.setBackgroundResource(R.drawable.roundedtextfield);
         view.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.info)));
 
-        TextView text = (TextView) view.findViewById(android.R.id.message);
+        TextView text = view.findViewById(android.R.id.message);
         text.setCompoundDrawablePadding(25);
         text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_info,0,0,0);
         text.setTextColor(Color.parseColor("#FFFFFF"));
@@ -40,7 +40,7 @@ public class Message {
         view.setBackgroundResource(R.drawable.roundedtextfield);
         view.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.success)));
 
-        TextView text = (TextView) view.findViewById(android.R.id.message);
+        TextView text = view.findViewById(android.R.id.message);
         text.setCompoundDrawablePadding(25);
         text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_success,0,0,0);
         text.setTextColor(Color.parseColor("#FFFFFF"));
