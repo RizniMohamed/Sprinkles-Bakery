@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -43,27 +43,69 @@ public class Profile extends Fragment {
                 startActivity(new Intent(getContext(), Login.class));
         });
 
-        btnName.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            final EditText edittext = new EditText(view.getContext());
-
-
-            builder.setCancelable(false);
-
-            LayoutInflater factory = LayoutInflater.from(getContext());
-            final View deleteDialogView = factory.inflate(R.layout.fragment_profile, null);
-
-            builder.setView(deleteDialogView);
-
-            builder.setPositiveButton("Save", (dialog, whichButton) -> Toast.makeText(getContext(), edittext.getText().toString(), Toast.LENGTH_SHORT).show());
-
-            builder.setNegativeButton("Cancel", (dialog, whichButton) -> dialog.dismiss());
-
-            builder.show();
-
-        });
+        textName.setText(db.auth().getUser().getName());
+        btnName.setOnClickListener(v -> textDialog("Name"));
+        btnContact.setOnClickListener(v -> textDialog("Contact"));
+        btnPassword.setOnClickListener(v -> textDialog("Password"));
 
         return view;
+    }
+
+    private void textDialog(String set){
+        AlertDialog dialog = new AlertDialog.Builder(getContext()).create();
+
+        LayoutInflater factory = LayoutInflater.from(getContext());
+        final View model = factory.inflate(R.layout.text_model, null);
+
+        EditText txt = model.findViewById(R.id.txt);
+        switch (set) {
+            case "Name":
+                txt.setHint("Name");
+                break;
+            case "Contact":
+                txt.setHint("Contact");
+                break;
+            case "Password":
+                //TODO 2nd verification needed
+                txt.setHint("Password");
+                break;
+        }
+
+        Button btnApply = model.findViewById(R.id.btnApply);
+        Button btnCancel = model.findViewById(R.id.btnCancel);
+
+        btnApply.setOnClickListener(v1 -> {
+            switch (set) {
+                case "Name":
+                    setNameInDB(txt.getText().toString());
+                    break;
+                case "Contact":
+                    setContactInDB(txt.getText().toString());
+                    break;
+                case "Password":
+                    setPasswordInDB(txt.getText().toString());
+                    break;
+            }
+            dialog.dismiss();
+        });
+        btnCancel.setOnClickListener(v1 -> dialog.dismiss());
+
+        dialog.setCancelable(false);
+        dialog.setView(model);
+        dialog.show();
+
+    }
+
+    private void setNameInDB(String name) {
+        Message.info(getContext(),name);
+    }
+
+    private void setContactInDB(String name) {
+        Message.info(getContext(),name);
+    }
+
+    private void setPasswordInDB(String name) {
+        Message.info(getContext(),name);
     }
 
     private void initPic(View view) {
@@ -72,9 +114,11 @@ public class Profile extends Fragment {
                 .asBitmap()
                 .centerCrop()
                 .fitCenter()
+                .placeholder(R.drawable.ic_photo)
                 .load("https://images.pexels.com/photos/1308885/pexels-photo-1308885.jpeg?cs=srgb&dl=pexels-tu%E1%BA%A5n-ki%E1%BB%87t-jr-1308885.jpg&fm=jpg")
                 .apply(RequestOptions.circleCropTransform())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.ic_photo)
                 .into(btnPic);
     }
 

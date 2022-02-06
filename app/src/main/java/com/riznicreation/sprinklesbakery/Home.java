@@ -95,8 +95,6 @@ public class Home extends AppCompatActivity {
         });
 
 
-
-
         //Set actions for each element in the menu
         navigationView.setNavigationItemSelectedListener(item -> {
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -121,7 +119,6 @@ public class Home extends AppCompatActivity {
             } else if (id == R.id.menuAuth) { //Login or Logout
                 if(navigationView.getMenu().getItem(6).getTitle() == "Login"){
                         startActivity(new Intent(this, Login.class));
-                        finish();
                 }else{
                     if (!db.auth().logout()) Message.error(this,"Error on logout");
                 }
@@ -149,8 +146,8 @@ public class Home extends AppCompatActivity {
                     //If not user logged in Direct to login page
                     Intent intent = new Intent(Home.this,Login.class);
                     startActivity(intent);
-                    finish();
                 }
+
                 //Set title of page according to their tabs
                 switch (tab.getPosition()){
                     case 1: textHeader.setText(R.string.order); break;

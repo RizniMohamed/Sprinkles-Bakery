@@ -14,7 +14,7 @@ public class Auth extends DBHelper{
         super(context);
     }
 
-    private static User user = new User();
+    private final static User user = new User();
 
     public boolean checkLoginStatus(){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -28,6 +28,10 @@ public class Auth extends DBHelper{
             }
         }
         return false;
+    }
+
+    public User getUser(){
+        return user;
     }
 
 

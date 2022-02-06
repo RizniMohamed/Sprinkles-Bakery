@@ -46,11 +46,11 @@ public class Login extends AppCompatActivity {
 
         if(email.isEmpty() || password.isEmpty()){
             if (email.isEmpty())
-                Message.error(this,"Email cannot be empty");
+                Message.error(getBaseContext(),"Email cannot be empty");
             if (password.isEmpty())
-                Message.error(this,"Password cannot be empty");
+                Message.error(getApplicationContext(),"Password cannot be empty");
         }else if (!(email.contains("@") && email.contains("."))){
-            Message.error(this,"Invalid email");
+            Message.error(getApplicationContext(),"Invalid email");
         }else{
             return validateInDB(email,password);
         }
@@ -62,7 +62,7 @@ public class Login extends AppCompatActivity {
     private boolean validateInDB(String email, String password) {
         DBHelper db = new DBHelper(this);
         if( !db.auth().login(email,password))
-            Message.error(this,"Login failed");
+            Message.error(getApplicationContext(),"Login failed");
         else
             return true;
         return false;
