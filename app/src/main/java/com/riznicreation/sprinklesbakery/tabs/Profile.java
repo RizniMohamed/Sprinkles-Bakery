@@ -1,7 +1,10 @@
 package com.riznicreation.sprinklesbakery.tabs;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -22,11 +27,19 @@ import com.riznicreation.sprinklesbakery.R;
 import com.riznicreation.sprinklesbakery.db.DBHelper;
 import com.riznicreation.sprinklesbakery.helper.Message;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
+
 public class Profile extends Fragment {
 
     private TextView btnPassword,btnLogout,btnName,btnContact,textName;
     private DBHelper db;
     private ImageView btnPic;
+    private ActivityResultLauncher<Intent> resultLauncher;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +48,11 @@ public class Profile extends Fragment {
 
         initViews(view);
         initPic(view);
+        initName();
+
+        btnPic.setOnClickListener(v -> {
+            chooseImage();
+        });
 
         btnLogout.setOnClickListener(v -> {
             if(!db.auth().logout())
@@ -43,7 +61,6 @@ public class Profile extends Fragment {
                 startActivity(new Intent(getContext(), Login.class));
         });
 
-        textName.setText(db.auth().getUser().getName());
         btnName.setOnClickListener(v -> textDialog("Name"));
         btnContact.setOnClickListener(v -> textDialog("Contact"));
         btnPassword.setOnClickListener(v -> textDialog("Password"));
@@ -51,7 +68,60 @@ public class Profile extends Fragment {
         return view;
     }
 
-    private void textDialog(String set){
+    private void chooseImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        resultLauncher.launch(intent);
+    }
+
+    private void imageActivityResultLauncher() {
+        resultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+
+                        assert data != null;
+                        storePicInDB(data.getData());
+
+                    }
+                });
+    }
+
+    private void storePicInDB(Uri data) {
+        InputStream iStream = null;
+        try {
+            iStream = requireContext().getContentResolver().openInputStream(data);
+        } catch (FileNotFoundException e) {
+            Message.info(getContext(),e.getLocalizedMessage());
+        }
+        assert iStream != null;
+        byte[] inputData = getBytes(iStream);
+        if(db.user().storeImage(inputData)){
+            Message.success(getContext(),"Image updated successfully");
+            initPic(requireView());
+        }else{
+            Message.error(getContext(),"Error on updating image");
+        }
+    }
+    public byte[] getBytes(@NonNull InputStream inputStream)  {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while (true) {
+            try {
+                if ((len = inputStream.read(buffer)) == -1) break;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
+    private void textDialog(@NonNull String set){
         AlertDialog dialog = new AlertDialog.Builder(getContext()).create();
 
         LayoutInflater factory = LayoutInflater.from(getContext());
@@ -66,7 +136,6 @@ public class Profile extends Fragment {
                 txt.setHint("Contact");
                 break;
             case "Password":
-                //TODO 2nd verification needed
                 txt.setHint("Password");
                 break;
         }
@@ -75,18 +144,24 @@ public class Profile extends Fragment {
         Button btnCancel = model.findViewById(R.id.btnCancel);
 
         btnApply.setOnClickListener(v1 -> {
-            switch (set) {
-                case "Name":
-                    setNameInDB(txt.getText().toString());
-                    break;
-                case "Contact":
-                    setContactInDB(txt.getText().toString());
-                    break;
-                case "Password":
-                    setPasswordInDB(txt.getText().toString());
-                    break;
-            }
-            dialog.dismiss();
+            if(!txt.getText().toString().isEmpty()){
+                switch (set) {
+                    case "Name":
+                        setNameInDB(txt.getText().toString());
+                        initName();
+                        break;
+                    case "Contact":
+                        setContactInDB(txt.getText().toString());
+                        break;
+                    case "Password":
+                        //TODO 2nd verification needed
+                        setPasswordInDB(txt.getText().toString());
+                        break;
+                }
+                dialog.dismiss();
+            }else
+                Message.error(getContext(),"Field cannot be empty");
+
         });
         btnCancel.setOnClickListener(v1 -> dialog.dismiss());
 
@@ -97,32 +172,66 @@ public class Profile extends Fragment {
     }
 
     private void setNameInDB(String name) {
-        Message.info(getContext(),name);
+        if(db.user().setName(name)) {
+            Message.success(getContext(), "Name updated successfully");
+            return;
+        }
+        Message.error(getContext(),"Error on name updating");
     }
 
-    private void setContactInDB(String name) {
-        Message.info(getContext(),name);
+    private void setContactInDB(String contact) {
+        if(db.user().setContact(contact)) {
+            Message.success(getContext(), "Name contact successfully");
+            return;
+        }
+        Message.error(getContext(),"Error on contact updating");
     }
 
-    private void setPasswordInDB(String name) {
-        Message.info(getContext(),name);
+    private void setPasswordInDB(String password) {
+        if(passwordCharValidation(password)){
+            if(db.auth().setPassword(password))
+                Message.success(getContext(),"password updated successfully");
+            else
+                Message.error(getContext(),"Error on password updating");
+        }else
+            Message.error(getContext(),"Password must contain at least 8 characters, 1 lower case, 1 upper case and 1 special character");
+
     }
 
-    private void initPic(View view) {
+    public boolean passwordCharValidation(@NonNull String password) {
+        /*
+            ^                 # start-of-string
+            (?=.*[0-9])       # a digit must occur at least once
+            (?=.*[a-z])       # a lower case letter must occur at least once
+            (?=.*[A-Z])       # an upper case letter must occur at least once
+            (?=.*[@#$%^&+=.]) # a special character must occur at least once
+            (?=\S+$)          # no whitespace allowed in the entire string
+            .{8,}             # anything, at least eight places though
+            $                 # end-of-string
+         */
+        String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.])(?=\\S+$).{8,}$";
+        return (password.matches(pattern));
+    }
+
+    private void initPic(@NonNull View view) {
 
         Glide.with(view.getContext())
                 .asBitmap()
                 .centerCrop()
                 .fitCenter()
                 .placeholder(R.drawable.ic_photo)
-                .load("https://images.pexels.com/photos/1308885/pexels-photo-1308885.jpeg?cs=srgb&dl=pexels-tu%E1%BA%A5n-ki%E1%BB%87t-jr-1308885.jpg&fm=jpg")
+                .load(db.user().getUser().getPicture())
                 .apply(RequestOptions.circleCropTransform())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.drawable.ic_photo)
                 .into(btnPic);
     }
 
-    private void initViews(View view) {
+    private void initName(){
+        textName.setText(db.user().getUser().getName());
+    }
+
+    private void initViews(@NonNull View view) {
         btnPassword = view.findViewById(R.id.btnPassword);
         btnPic = view.findViewById(R.id.btnPic);
         btnLogout = view.findViewById(R.id.btnLogout);
@@ -130,5 +239,6 @@ public class Profile extends Fragment {
         btnName = view.findViewById(R.id.btnName);
         btnContact = view.findViewById(R.id.btnContact);
         db = new DBHelper(view.getContext());
+        imageActivityResultLauncher();
     }
 }

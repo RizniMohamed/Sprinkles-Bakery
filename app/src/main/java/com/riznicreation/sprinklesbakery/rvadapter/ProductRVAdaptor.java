@@ -57,13 +57,12 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
     public static class ViewHolder extends RecyclerView.ViewHolder{
         //view castings
         private final ImageView imgProduct;
-        private final TextView textWeight,textName,textPrice,textDiscount;
+        private final TextView textName,textPrice,textDiscount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             //View declarations
             imgProduct = itemView.findViewById(R.id.imgProduct);
-            textWeight = itemView.findViewById(R.id.textWeight);
             textName = itemView.findViewById(R.id.textName);
             textPrice = itemView.findViewById(R.id.textPrice);
             textDiscount = itemView.findViewById(R.id.textDiscount);

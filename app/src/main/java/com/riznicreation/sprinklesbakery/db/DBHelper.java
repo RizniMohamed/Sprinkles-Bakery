@@ -55,6 +55,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public Auth auth(){
         return new Auth(context);
     }
+    public User user(){
+        return new User(context);
+    }
 
     public Category category(){
         return new Category(context);

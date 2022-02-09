@@ -1,14 +1,16 @@
 package com.riznicreation.sprinklesbakery.entity;
 
+import android.graphics.Bitmap;
+
 public class Product {
     private int id;
     private String name;
     private float price;
-    private String image;
+    private Bitmap image;
     private int discount;
     private int weight;
 
-    public Product(int id, String name, float price, String image, int discount, int weight) {
+    public Product(int id, String name, float price, Bitmap image, int discount, int weight) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -26,8 +28,8 @@ public class Product {
     public float getPrice() { return price; }
     public void setPrice(float price) { this.price = price; }
 
-    public String getImage() { return image; }
-    public void setImage(String image) { this.image = image; }
+    public Bitmap getImage() { return image; }
+    public void setImage(Bitmap image) { this.image = image; }
 
     public int getDiscount() { return discount; }
     public void setDiscount(int discount) { this.discount = discount; }

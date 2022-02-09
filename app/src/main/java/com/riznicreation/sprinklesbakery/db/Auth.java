@@ -10,28 +10,22 @@ import androidx.annotation.Nullable;
 import com.riznicreation.sprinklesbakery.entity.User;
 
 public class Auth extends DBHelper{
-    public Auth(@Nullable Context context) {
-        super(context);
-    }
+    public Auth(@Nullable Context context) { super(context); /*this.context = context;*/ }
 
-    private final static User user = new User();
+    private static User user = new User();
+//    private final Context context;
 
     public boolean checkLoginStatus(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT status  FROM Auth" ,null);
-        if (c.moveToNext()){
+        Cursor c = db.rawQuery("SELECT status  FROM Auth WHERE status=1",null);
+        while (c.moveToNext()){
             if(c.getString(0).equals("1")) {
                 c.close();
+                user = user().getUser();
                 return true;
-            }else{
-                return false;
             }
         }
         return false;
-    }
-
-    public User getUser(){
-        return user;
     }
 
 
@@ -42,15 +36,11 @@ public class Auth extends DBHelper{
             ContentValues cv = new ContentValues();
             cv.put("status",1);
             db.update("Auth",cv,"email=?",new String[]{email});
-            user.setAuthID(c.getInt(0));
-            user.setPassword(c.getString(1));
-            user.setEmail(c.getString(2));
-            user.setStatus(c.getInt(3));
+            user = user().getUser();
             c.close();
             return true;
         }
         return false;
-
     }
 
     public boolean registerUser(String email, String password) {
@@ -60,8 +50,19 @@ public class Auth extends DBHelper{
         cv.put("password",password);
         cv.put("email",email);
         cv.put("status",1);
+        cv.put("admin",0);
+        long authResult = db.insert("Auth",null,cv);
 
-        return db.insert("Auth",null,cv) != -1;
+        cv.clear();
+        cv.put("auth_id",authResult);
+        long userResult = db.insert("User",null,cv);
+
+        if ( (authResult != -1) && (userResult != -1)) {
+            user = user().getUser();
+            return true;
+        }else
+            return false;
+
     }
 
     public boolean accountAvailability(String email){
@@ -76,17 +77,20 @@ public class Auth extends DBHelper{
 
     public boolean logout(){
         SQLiteDatabase db = this.getWritableDatabase();
-
-        Cursor c = db.rawQuery("SELECT *  FROM Auth WHERE status=? " ,new String[]{"1"}); c.moveToFirst();
-        user.setAuthID(c.getInt(0));
-        user.setPassword(c.getString(1));
-        user.setEmail(c.getString(2));
-        user.setStatus(c.getInt(3));
-        c.close();
-
         ContentValues cv = new ContentValues();
         cv.put("status",0);
-        return db.update("Auth",cv,"email=?",new String[]{user.getEmail()}) == 1;
+        return db.update("Auth",cv,"auth_id=?",new String[]{String.valueOf(user.getAuthID())}) == 1;
+    }
+
+    public boolean setPassword(String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("password",password);
+        if(db.update("Auth",cv,"auth_id=?",new String[]{String.valueOf(user.getAuthID())}) == 1) {
+            user = user().getUser();
+            return true;
+        }
+        return false;
     }
 
 }

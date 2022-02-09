@@ -35,12 +35,11 @@ public class ViewProduct extends AppCompatActivity {
         });
 
         Bundle extras = getIntent().getExtras();
-        if(!extras.isEmpty()){
+
+        if( (extras != null) && (!extras.isEmpty()) ){
             int id = extras.getInt("categoryID");
             Message.info(this,String.valueOf(id));
         }
-
-
 
     }
 

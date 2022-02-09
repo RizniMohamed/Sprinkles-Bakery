@@ -1,25 +1,29 @@
 package com.riznicreation.sprinklesbakery.entity;
 
+import android.graphics.Bitmap;
+
 public class User {
 
     private int authID;
     private String email;
     private String password;
     private int status;
+    private int isAdmin;
 
     private int userID;
     private String name;
-    private String picture;
+    private Bitmap picture;
     private int contact;
     private int orderID;
 
     public User() { }
 
-    public User(int authID, String email, String password, int status, int userID, String name, String picture, int contact, int orderID) {
+    public User(int authID, String email, String password, int status, int isAdmin, int userID, String name, Bitmap picture, int contact, int orderID) {
         this.authID = authID;
         this.email = email;
         this.password = password;
         this.status = status;
+        this.isAdmin = isAdmin;
         this.userID = userID;
         this.name = name;
         this.picture = picture;
@@ -39,14 +43,17 @@ public class User {
     public int getStatus() {return status;}
     public void setStatus(int status) {this.status = status;}
 
+    public int getIsAdmin() {return isAdmin;}
+    public void setIsAdmin(int isAdmin) {this.isAdmin = isAdmin;}
+
     public int getUserID() {return userID;}
     public void setUserID(int userID) {this.userID = userID;}
 
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
 
-    public String getPicture() {return picture;}
-    public void setPicture(String picture) {this.picture = picture;}
+    public Bitmap getPicture() {return picture;}
+    public void setPicture(Bitmap picture) {this.picture = picture;}
 
     public int getContact() {return contact;}
     public void setContact(int contact) {this.contact = contact;}

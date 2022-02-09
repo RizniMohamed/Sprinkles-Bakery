@@ -21,27 +21,11 @@
             android:id="@+id/imgProduct"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@mipmap/cake"
+            android:src="@mipmap/c1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/productImage" />
 
-        <!-- Weight -->
-        <TextView
-            android:id="@+id/textWeight"
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/roundedwight"
-            android:padding="3dp"
-            android:text="@string/_10kg"
-            android:textAlignment="center"
-            android:textColor="#686767"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/imgProduct"
-            app:layout_constraintTop_toTopOf="@+id/imgProduct" />
 
         <!-- Name -->
         <TextView

@@ -48,6 +48,7 @@
             cream	TEXT NOT NULL,
             flavour	TEXT NOT NULL,
             unit_price	INTEGER NOT NULL,
+            image	BLOB NULL,
             category_id	INTEGER NOT NULL,
             FOREIGN KEY(category_id) REFERENCES Category(category_id) ON UPDATE CASCADE ON DELETE CASCADE,
             PRIMARY KEY(product_id AUTOINCREMENT)
@@ -64,9 +65,9 @@
         );
         CREATE TABLE IF NOT EXISTS User (
             user_id	INTEGER NOT NULL UNIQUE,
-            name	TEXT NOT NULL,
-            contact	INTEGER NOT NULL,
-            image	TEXT,
+            name	TEXT NULL,
+            contact	INTEGER NULL,
+            image	BLOB NULL,
             orders_id	INTEGER NULL UNIQUE,
             auth_id	INTEGER NOT NULL UNIQUE,
             FOREIGN KEY(orders_id) REFERENCES Orders(orders_id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -78,13 +79,17 @@
             password	TEXT NOT NULL,
             email	TEXT NOT NULL UNIQUE,
             status	INTEGER NOT NULL,
+            admin	INTEGER NOT NULL,
             PRIMARY KEY(auth_id AUTOINCREMENT)
         );
         COMMIT;
     </string>
     <string name="insert_data">
-        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'1\', \'Classic \', \'0\');
-        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'2\', \'Themed \', \'0\');
+        INSERT INTO \"main\".\"Auth\" (\"auth_id\", \"password\", \"email\", \"status\", \"admin\") VALUES (\'1\', \'root\', \'admin@sb.org\', \'0\', \'1\');
+        INSERT INTO \"main\".\"User\" (\"user_id\", \"name\", \"contact\", \"image\", \"orders_id\", \"auth_id\") VALUES (\'1\', \'Admin Name\', \'0775824807\', \'https://www.freewalldownload.com/cute-girl/latest-cute-girl-wallpaper-download-for-mobile.jpg\',\'0\', \'1\');
+
+        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'1\', \'Classic\', \'0\');
+        INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'2\', \'Themed\', \'0\');
         INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'3\', \'Birthday\', \'0\');
         INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'4\', \'Anniversary\', \'0\');
         INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'5\', \'New Baby\', \'0\');
