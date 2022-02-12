@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.riznicreation.sprinklesbakery.R;
 import com.riznicreation.sprinklesbakery.db.DBHelper;
 import com.riznicreation.sprinklesbakery.entity.Category;
-import com.riznicreation.sprinklesbakery.entity.Product;
 import com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor;
 import com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor;
 
@@ -49,8 +48,10 @@ public class Store extends Fragment {
     }
 
     private void setToggle(@NonNull TextView textView, RecyclerView recyclerView, int spanCount) {
+
         //toggle the expansion view  when click the text
         textView.setOnClickListener(v -> {
+
             if(Objects.requireNonNull(recyclerView.getLayoutManager()).canScrollHorizontally()) {
                 recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
                 if(textView.getText().toString().contains("View")) textView.setText(R.string.view_less);
@@ -58,6 +59,10 @@ public class Store extends Fragment {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 if(textView.getText().toString().contains("View")) textView.setText(R.string.view_all);
             }
+
+            //fix disappearing discount tag while toggling the view
+            initMostPopular();
+            initSuperDeals();
         });
 
         //set default category list as linear
@@ -66,21 +71,13 @@ public class Store extends Fragment {
 
     private void initSuperDeals() {
         ProductRVAdaptor prvAdaptor = new ProductRVAdaptor(getContext());
-        ArrayList<Product> products = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            products.add(new Product(0,"",0,"",1,0));
-        }
-        prvAdaptor.setProducts(products);
+        prvAdaptor.setProducts(db.product().getDiscountProducts());
         rvSuperDeals.setAdapter(prvAdaptor);
     }
 
     private void initMostPopular() {
         ProductRVAdaptor prvAdaptor = new ProductRVAdaptor(getContext());
-        ArrayList<Product> products = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            products.add(new Product(0,"",0,"",0,0));
-        }
-        prvAdaptor.setProducts(products);
+        prvAdaptor.setProducts(db.product().getAllProducts());
         rvMostPopular.setAdapter(prvAdaptor);
     }
 

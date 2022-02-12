@@ -13,7 +13,7 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="menu">menu</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="order">Order</string>
     <string name="cart">Cart</string>
@@ -56,11 +56,8 @@
         CREATE TABLE IF NOT EXISTS Orders (
             orders_id	INTEGER NOT NULL UNIQUE,
             date	TEXT NOT NULL,
-            quantity	INTEGER NOT NULL,
             status	INTEGER NOT NULL,
             total_price	NUMERIC NOT NULL,
-            product_id	INTEGER NOT NULL,
-            FOREIGN KEY(product_id) REFERENCES Product(product_id) ON UPDATE CASCADE ON DELETE CASCADE,
             PRIMARY KEY(orders_id AUTOINCREMENT)
         );
         CREATE TABLE IF NOT EXISTS User (
@@ -82,6 +79,15 @@
             admin	INTEGER NOT NULL,
             PRIMARY KEY(auth_id AUTOINCREMENT)
         );
+        CREATE TABLE IF NOT EXISTS OrderProduct (
+            op_id	INTEGER NOT NULL UNIQUE,
+            quantity	INTEGER NOT NULL,
+            product_id	INTEGER NOT NULL UNIQUE,
+            orders_id	INTEGER NOT NULL UNIQUE,
+            PRIMARY KEY(op_id AUTOINCREMENT),
+            FOREIGN KEY(product_id) REFERENCES Product(product_id) ON DELETE CASCADE ON UPDATE CASCADE,
+            FOREIGN KEY(orders_id) REFERENCES Orders(orders_id) ON DELETE CASCADE ON UPDATE CASCADE
+        );
         COMMIT;
     </string>
     <string name="insert_data">
@@ -96,5 +102,26 @@
         INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'6\', \'Valentine’s Day\', \'0\');
         INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'7\', \'Graduation\', \'0\');
         INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'8\', \'Mother’s Day\', \'0\');
+
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'1\', \'Vanilla\', \'Vanilla Buttercream frosting\', \'Vanilla\', \'80\',                                 \'va1\', \'1\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'2\', \'Chocolate\', \'Chocolate buttercream frosting\', \'Chocolate\', \'120\',                          \'ch1\', \'1\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'3\', \'Coffee\', \'Coffee buttercream frosting\', \'Coffee\', \'100\',                                   \'co1\', \'1\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'4\', \'Animal\', \'Iced with buttercream\', \'Vanilla/Chocolate\', \'200\',                              \'an2\', \'2\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'5\', \'Mermaids\', \'Colored vanilla buttercream\', \'Chocolate/Vvanilla\', \'250\',                     \'me2\', \'2\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'6\', \'Purple\', \'Purple and white buttercream \', \'Chocolate/Vanilla \', \'190\',                     \'pu2\', \'2\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'7\', \'Funafuti\', \'Vanilla buttercream frosting\', \'Vanilla\', \'150\',                               \'fu3\', \'3\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'8\', \'Unicorn\', \'Vanilla buttercream frosting\', \'Vanilla and Marshmallow\', \'180\',                  \'un3\', \'3\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'9\', \'Double Chocolate\', \'Chocolate buttercream frosting\', \'Chocolate\', \'200\',                   \'do3\', \'3\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'10\', \'Red Velvet\', \'Cheese buttercream frosting\', \'Vanilla and hint of cocoa\', \'200\',             \'re4\', \'4\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'11\', \'Black forest\', \'Chocolaty and Cherry\', \'Cherry flavored buttercream frosting\', \'250\',       \'bl4\', \'4\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'12\', \'Vanilla\', \'Vanilla buttercream frosting\', \'Vanilla\', \'80\',                                \'va4\', \'4\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'13\', \'Pink Velvet\', \'Vanilla buttercream frosting\', \'Vanilla\', \'150\',                           \'pi5\', \'5\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'14\', \'Rainbow\', \'Vanilla\', \'Vanilla buttercream\', \'150\',                                        \'ra5\', \'5\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'15\', \'Inside Heart\', \'Vanilla buttercream frosting\', \'Vanilla\', \'200\',                          \'in6\', \'6\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'16\', \'Ferraro Rocher\', \'Chocolaty buttercream frosting\', \'Chocolaty\', \'300\',                    \'fe7\', \'7\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'17\', \'Caramel\', \'Caramel buttercream frosting\', \'Vanilla and Caramel\', \'200\',                     \'ca7\', \'7\');
+        INSERT INTO \"main\".\"Product\" (\"product_id\", \"name\", \"cream\", \"flavour\", \"unit_price\", \"image\", \"category_id\") VALUES (\'18\', \'Strawberry\', \'Strawberry buttercream frosting\', \'Vanilla and Strawberry\', \'250\',            \'st8\', \'8\');
+
     </string>
+    <string name="LKR">LKR </string>
 </resources>

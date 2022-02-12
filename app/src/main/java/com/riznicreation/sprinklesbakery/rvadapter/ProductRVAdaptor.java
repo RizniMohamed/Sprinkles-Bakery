@@ -11,6 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.riznicreation.sprinklesbakery.R;
 import com.riznicreation.sprinklesbakery.entity.Product;
 
@@ -43,9 +47,23 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Product product = products.get(position);
         if(product.getDiscount() == 0) holder.textDiscount.setVisibility(View.GONE);
-        //set dynamic values for each elements
-//        holder.btnIcon.setBackgroundResource(category.getIconID());
-//        holder.name.setText(category.getName());
+
+        Glide.with(context)
+                .asBitmap()
+                .centerCrop()
+                .fitCenter()
+                .placeholder(R.drawable.ic_cake)
+                .load(product.getImage())
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(14)))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.ic_cake)
+                .into(holder.imgProduct);
+
+
+        holder.textDiscount.setText(String.valueOf(product.getDiscount()));
+        holder.textName.setText(product.getProduct_name());
+        holder.textPrice.setText(context.getString(R.string.LKR).concat(" ").concat(String.valueOf(product.getUnit_price())));
+
     }
 
     @Override

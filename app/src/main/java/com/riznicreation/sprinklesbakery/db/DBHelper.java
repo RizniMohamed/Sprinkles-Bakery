@@ -1,6 +1,5 @@
 package com.riznicreation.sprinklesbakery.db;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -10,7 +9,6 @@ import androidx.annotation.Nullable;
 
 import com.riznicreation.sprinklesbakery.R;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -58,9 +56,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public User user(){
         return new User(context);
     }
-
     public Category category(){
         return new Category(context);
+    }
+    public Product product(){
+        return new Product(context);
     }
 
 

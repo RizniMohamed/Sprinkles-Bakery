@@ -1,5 +1,6 @@
 package com.riznicreation.sprinklesbakery.db;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -24,13 +25,16 @@ public class User extends DBHelper{
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM User LEFT JOIN Auth ON Auth.auth_id=User.auth_id WHERE Auth.status=1";
         Cursor c = db.rawQuery(query,null);
+
+        //Change the cursor max reading length 2mb to 100mb for read blob data from sqlite
         try {
-            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            @SuppressLint("DiscouragedPrivateApi") Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
             field.setAccessible(true);
             field.set(null, 100 * 1024 * 1024); //the 100MB is the new size
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         if (c.moveToFirst()){
             user.setUserID(c.getInt(0));
             user.setName(c.getString(1));

@@ -25,6 +25,7 @@
             android:src="@drawable/ic_back" />
 
         <EditText
+            android:id="@+id/txtSearch"
             android:layout_weight="1"
             android:backgroundTint="@color/white"
             android:layout_width="0dp"
