@@ -65,6 +65,17 @@ public class User extends DBHelper{
         return false;
     }
 
+    public boolean setAddress(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("address",name);
+        if(db.update("User",cv,"user_id=?",new String[]{String.valueOf(user.getUserID())}) == 1) {
+            getUser();
+            return true;
+        }
+        return false;
+    }
+
 
     public boolean setContact(String contact) {
         SQLiteDatabase db = this.getWritableDatabase();

@@ -35,7 +35,7 @@ import java.util.Objects;
 
 public class Profile extends Fragment {
 
-    private TextView btnPassword,btnLogout,btnName,btnContact,textName;
+    private TextView btnPassword,btnLogout,btnName,btnContact,btnAddress,textName;
     private DBHelper db;
     private ImageView btnPic;
     private ActivityResultLauncher<Intent> resultLauncher;
@@ -64,6 +64,7 @@ public class Profile extends Fragment {
         btnName.setOnClickListener(v -> textDialog("Name"));
         btnContact.setOnClickListener(v -> textDialog("Contact"));
         btnPassword.setOnClickListener(v -> textDialog("Password"));
+        btnAddress.setOnClickListener(v -> textDialog("Address"));
 
         return view;
     }
@@ -137,6 +138,8 @@ public class Profile extends Fragment {
                 break;
             case "Password":
                 txt.setHint("Password");
+            case "Address":
+                txt.setHint("Address");
                 break;
         }
 
@@ -152,6 +155,9 @@ public class Profile extends Fragment {
                         break;
                     case "Contact":
                         setContactInDB(txt.getText().toString());
+                        break;
+                    case "Address":
+                        setAddressInDB(txt.getText().toString());
                         break;
                     case "Password":
                         //TODO 2nd verification needed
@@ -169,6 +175,14 @@ public class Profile extends Fragment {
         dialog.setView(model);
         dialog.show();
 
+    }
+
+    private void setAddressInDB(String address) {
+        if(db.user().setAddress(address)) {
+            Message.success(getContext(), "Address updated successfully");
+            return;
+        }
+        Message.error(getContext(),"Error on name updating");
     }
 
     private void setNameInDB(String name) {
@@ -219,11 +233,11 @@ public class Profile extends Fragment {
                 .asBitmap()
                 .centerCrop()
                 .fitCenter()
-                .placeholder(R.drawable.ic_photo)
+                .placeholder(R.mipmap.default_image)
                 .load(db.user().getUser().getPicture())
                 .apply(RequestOptions.circleCropTransform())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.drawable.ic_photo)
+                .error(R.mipmap.default_image)
                 .into(btnPic);
     }
 
@@ -238,6 +252,7 @@ public class Profile extends Fragment {
         textName = view.findViewById(R.id.textName);
         btnName = view.findViewById(R.id.btnName);
         btnContact = view.findViewById(R.id.btnContact);
+        btnAddress = view.findViewById(R.id.btnAddress);
         db = new DBHelper(view.getContext());
         imageActivityResultLauncher();
     }

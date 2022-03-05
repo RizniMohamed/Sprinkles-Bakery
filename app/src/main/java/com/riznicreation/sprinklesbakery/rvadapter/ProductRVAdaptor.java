@@ -2,6 +2,7 @@ package com.riznicreation.sprinklesbakery.rvadapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.riznicreation.sprinklesbakery.ProductDetails;
 import com.riznicreation.sprinklesbakery.R;
 import com.riznicreation.sprinklesbakery.entity.Product;
 
@@ -25,7 +28,6 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
 
     private ArrayList<Product> products = new ArrayList<>();
     private final Context context;
-
 
     public ProductRVAdaptor(Context context) {
         this.context = context;
@@ -60,9 +62,16 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
                 .into(holder.imgProduct);
 
 
-        holder.textDiscount.setText(String.valueOf(product.getDiscount()));
+        holder.textDiscount.setText(String.valueOf(product.getDiscount()).concat("%"));
         holder.textName.setText(product.getProduct_name());
         holder.textPrice.setText(context.getString(R.string.LKR).concat(" ").concat(String.valueOf(product.getUnit_price())));
+
+        holder.cvProduct.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ProductDetails.class);
+            intent.putExtra("productID",product.getProduct_id());
+            context.startActivity(intent);
+        });
+
 
     }
 
@@ -76,6 +85,7 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
         //view castings
         private final ImageView imgProduct;
         private final TextView textName,textPrice,textDiscount;
+        private final CardView cvProduct;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +94,7 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
             textName = itemView.findViewById(R.id.textName);
             textPrice = itemView.findViewById(R.id.textPrice);
             textDiscount = itemView.findViewById(R.id.textDiscount);
+            cvProduct = itemView.findViewById(R.id.cvProduct);
 
         }
     }

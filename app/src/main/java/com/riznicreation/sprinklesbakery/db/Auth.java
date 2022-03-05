@@ -13,7 +13,6 @@ public class Auth extends DBHelper{
     public Auth(@Nullable Context context) { super(context); /*this.context = context;*/ }
 
     private static User user = new User();
-//    private final Context context;
 
     public boolean checkLoginStatus(){
         SQLiteDatabase db = this.getReadableDatabase();

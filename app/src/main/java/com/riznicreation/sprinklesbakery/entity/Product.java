@@ -14,9 +14,11 @@ public class Product {
     private String category_name;
     private int discount;
 
+    private int quantity;
+
     public Product(){}
 
-    public Product(int product_id, String product_name, String cream, String flavour, float unit_price, Bitmap image, int category_id, String category_name, int discount) {
+    public Product(int product_id, String product_name, String cream, String flavour, float unit_price, Bitmap image, int category_id, String category_name, int discount, int quantity) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.cream = cream;
@@ -26,6 +28,7 @@ public class Product {
         this.category_id = category_id;
         this.category_name = category_name;
         this.discount = discount;
+        this.quantity = quantity;
     }
 
     public int getProduct_id() { return product_id; }
@@ -54,4 +57,8 @@ public class Product {
 
     public int getDiscount() { return discount; }
     public void setDiscount(int discount) { this.discount = discount; }
+
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+
 }

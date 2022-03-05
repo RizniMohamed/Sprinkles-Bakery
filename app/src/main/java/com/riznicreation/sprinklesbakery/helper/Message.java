@@ -40,7 +40,7 @@ public class Message {
 
         Toast toast = new Toast(context);
         toast.setGravity(Gravity.BOTTOM, 0, 100);
-        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(text);
         toast.show();
 

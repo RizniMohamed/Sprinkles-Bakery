@@ -35,64 +35,65 @@
     <string name="_10">10%</string>
     <string name="view_less"><![CDATA[View less <]]></string>
     <string name="create_tables">
-        BEGIN TRANSACTION;
-        CREATE TABLE IF NOT EXISTS Category (
-            category_id	INTEGER NOT NULL UNIQUE,
-            name	TEXT NOT NULL,
-            discount	INTEGER NOT NULL,
-            PRIMARY KEY(category_id AUTOINCREMENT)
-        );
-        CREATE TABLE IF NOT EXISTS Product (
-            product_id	INTEGER NOT NULL UNIQUE,
-            name	TEXT NOT NULL,
-            cream	TEXT NOT NULL,
-            flavour	TEXT NOT NULL,
-            unit_price	INTEGER NOT NULL,
-            image	BLOB NULL,
-            category_id	INTEGER NOT NULL,
-            FOREIGN KEY(category_id) REFERENCES Category(category_id) ON UPDATE CASCADE ON DELETE CASCADE,
-            PRIMARY KEY(product_id AUTOINCREMENT)
-        );
-        CREATE TABLE IF NOT EXISTS Orders (
-            orders_id	INTEGER NOT NULL UNIQUE,
-            date	TEXT NOT NULL,
-            status	INTEGER NOT NULL,
-            total_price	NUMERIC NOT NULL,
-            PRIMARY KEY(orders_id AUTOINCREMENT)
-        );
-        CREATE TABLE IF NOT EXISTS User (
-            user_id	INTEGER NOT NULL UNIQUE,
-            name	TEXT NULL,
-            contact	INTEGER NULL,
-            image	BLOB NULL,
-            orders_id	INTEGER NULL UNIQUE,
-            auth_id	INTEGER NOT NULL UNIQUE,
-            FOREIGN KEY(orders_id) REFERENCES Orders(orders_id) ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY(auth_id) REFERENCES Auth(auth_id) ON UPDATE CASCADE ON DELETE CASCADE,
-            PRIMARY KEY(user_id AUTOINCREMENT)
-        );
-        CREATE TABLE IF NOT EXISTS Auth (
-            auth_id	INTEGER NOT NULL UNIQUE,
-            password	TEXT NOT NULL,
-            email	TEXT NOT NULL UNIQUE,
-            status	INTEGER NOT NULL,
-            admin	INTEGER NOT NULL,
-            PRIMARY KEY(auth_id AUTOINCREMENT)
-        );
-        CREATE TABLE IF NOT EXISTS OrderProduct (
-            op_id	INTEGER NOT NULL UNIQUE,
-            quantity	INTEGER NOT NULL,
-            product_id	INTEGER NOT NULL UNIQUE,
-            orders_id	INTEGER NOT NULL UNIQUE,
-            PRIMARY KEY(op_id AUTOINCREMENT),
-            FOREIGN KEY(product_id) REFERENCES Product(product_id) ON DELETE CASCADE ON UPDATE CASCADE,
-            FOREIGN KEY(orders_id) REFERENCES Orders(orders_id) ON DELETE CASCADE ON UPDATE CASCADE
-        );
-        COMMIT;
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS Category (
+    category_id	INTEGER NOT NULL UNIQUE,
+    name	TEXT NOT NULL,
+    discount	INTEGER NOT NULL,
+    PRIMARY KEY(category_id AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS Product (
+    product_id	INTEGER NOT NULL UNIQUE,
+    name	TEXT NOT NULL,
+    cream	TEXT NOT NULL,
+    flavour	TEXT NOT NULL,
+    unit_price	INTEGER NOT NULL,
+    image	BLOB NULL,
+    category_id	INTEGER NOT NULL,
+    FOREIGN KEY(category_id) REFERENCES Category(category_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    PRIMARY KEY(product_id AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS Orders (
+    orders_id	INTEGER NOT NULL UNIQUE,
+    date	TEXT NOT NULL,
+    status	INTEGER NOT NULL,
+    total_price	NUMERIC NOT NULL,
+    user_id	INTEGER NOT NULL,
+    FOREIGN KEY(user_id) REFERENCES User(user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    PRIMARY KEY(orders_id AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS User (
+    user_id	INTEGER NOT NULL UNIQUE,
+    name	TEXT NULL,
+    contact	INTEGER NULL,
+    image	BLOB NULL,
+    address	TEXT NULL,
+    auth_id	INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY(auth_id) REFERENCES Auth(auth_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    PRIMARY KEY(user_id AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS Auth (
+    auth_id	INTEGER NOT NULL UNIQUE,
+    password	TEXT NOT NULL,
+    email	TEXT NOT NULL UNIQUE,
+    status	INTEGER NOT NULL,
+    admin	INTEGER NOT NULL,
+    PRIMARY KEY(auth_id AUTOINCREMENT)
+);
+CREATE TABLE IF NOT EXISTS OrderProduct (
+    op_id	INTEGER NOT NULL UNIQUE,
+    quantity	INTEGER NOT NULL,
+    product_id	INTEGER NOT NULL ,
+    orders_id	INTEGER NOT NULL ,
+    PRIMARY KEY(op_id AUTOINCREMENT),
+    FOREIGN KEY(product_id) REFERENCES Product(product_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(orders_id) REFERENCES Orders(orders_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+COMMIT;
     </string>
     <string name="insert_data">
         INSERT INTO \"main\".\"Auth\" (\"auth_id\", \"password\", \"email\", \"status\", \"admin\") VALUES (\'1\', \'root\', \'admin@sb.org\', \'0\', \'1\');
-        INSERT INTO \"main\".\"User\" (\"user_id\", \"name\", \"contact\", \"image\", \"orders_id\", \"auth_id\") VALUES (\'1\', \'Admin Name\', \'0775824807\', \'https://www.freewalldownload.com/cute-girl/latest-cute-girl-wallpaper-download-for-mobile.jpg\',\'0\', \'1\');
+        INSERT INTO \"main\".\"User\" (\"user_id\", \"name\", \"contact\", \"image\", \"address\", \"auth_id\") VALUES (\'1\', \'Admin Name\', \'0775824807\', \'https://www.freewalldownload.com/cute-girl/latest-cute-girl-wallpaper-download-for-mobile.jpg\',\'null\', \'1\');
 
         INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'1\', \'Classic\', \'0\');
         INSERT INTO \"main\".\"Category\" (\"category_id\", \"name\", \"discount\") VALUES (\'2\', \'Themed\', \'0\');

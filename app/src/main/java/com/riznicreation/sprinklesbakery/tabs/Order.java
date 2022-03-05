@@ -34,6 +34,7 @@ public class Order extends Fragment {
 
     private void initOrders() {
         ListRVAdaptor orvAdaptor = new ListRVAdaptor(getContext());
+        orvAdaptor.setPage("Order");
         ArrayList<com.riznicreation.sprinklesbakery.entity.Order> orders = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             orders.add(new com.riznicreation.sprinklesbakery.entity.Order(0,0,new Date(),0,0));

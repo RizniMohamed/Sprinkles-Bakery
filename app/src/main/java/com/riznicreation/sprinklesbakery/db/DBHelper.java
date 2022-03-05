@@ -62,6 +62,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public Product product(){
         return new Product(context);
     }
+    public Order order(){
+        return new Order(context);
+    }
 
 
 }
