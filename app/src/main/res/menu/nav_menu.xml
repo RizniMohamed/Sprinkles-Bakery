@@ -25,8 +25,8 @@
         android:title="Profile"/>
     <item
         android:id="@+id/menuReport"
-        android:icon="@drawable/ic_report"
-        android:title="Report"/>
+        android:icon="@drawable/ic_settings"
+        android:title="Manage"/>
     <item
         android:id="@+id/menuAuth"
         android:icon="@drawable/ic_login"

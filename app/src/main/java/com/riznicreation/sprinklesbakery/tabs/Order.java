@@ -1,21 +1,18 @@
 package com.riznicreation.sprinklesbakery.tabs;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.riznicreation.sprinklesbakery.R;
-import com.riznicreation.sprinklesbakery.rvadapter.ListRVAdaptor;
-
-import java.util.ArrayList;
-import java.util.Date;
+import com.riznicreation.sprinklesbakery.db.DBHelper;
+import com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor;
 
 public class Order extends Fragment {
 
@@ -27,19 +24,20 @@ public class Order extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
 
         initViews(view);
-        initOrders();
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initOrders();
+    }
+
     private void initOrders() {
-        ListRVAdaptor orvAdaptor = new ListRVAdaptor(getContext());
-        orvAdaptor.setPage("Order");
-        ArrayList<com.riznicreation.sprinklesbakery.entity.Order> orders = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            orders.add(new com.riznicreation.sprinklesbakery.entity.Order(0,0,new Date(),0,0));
-        }
-        orvAdaptor.setOrders(orders);
+        OrderRVAdaptor orvAdaptor = new OrderRVAdaptor(getContext());
+        orvAdaptor.setOrders(new DBHelper(getContext()).order().getOrder());
+
         //set default category list as linear
         rvOrder.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         rvOrder.setAdapter(orvAdaptor);

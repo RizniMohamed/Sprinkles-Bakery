@@ -17,10 +17,9 @@ import com.riznicreation.sprinklesbakery.R;
 import com.riznicreation.sprinklesbakery.db.DBHelper;
 import com.riznicreation.sprinklesbakery.entity.Product;
 import com.riznicreation.sprinklesbakery.helper.Message;
-import com.riznicreation.sprinklesbakery.rvadapter.ListRVAdaptor;
+import com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Cart extends Fragment {
 
@@ -79,11 +78,10 @@ public class Cart extends Fragment {
     }
 
     private void initCartList(ArrayList<Product> items) {
-        ListRVAdaptor crvAdaptor = new ListRVAdaptor(getContext());
-        crvAdaptor.setPage("Cart");
-        crvAdaptor.setBtnRemove(true);
+        CartRVAdaptor crvAdaptor = new CartRVAdaptor(getContext());
         crvAdaptor.setCart(items);
         crvAdaptor.setTotal(txtTotal);
+        crvAdaptor.setPage("Cart");
         //set default category list as linear
         rvCart.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         rvCart.setAdapter(crvAdaptor);

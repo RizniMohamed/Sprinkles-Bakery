@@ -71,4 +71,12 @@ public class Product extends DBHelper{
 
         return discountProducts;
     }
+
+    public ArrayList<com.riznicreation.sprinklesbakery.entity.Product> getProducts(int id) {
+        ArrayList<com.riznicreation.sprinklesbakery.entity.Product> categorized_products = new ArrayList<>();
+        for (com.riznicreation.sprinklesbakery.entity.Product p: products) {
+            if(p.getCategory_id() == id) categorized_products.add(p);
+        }
+        return categorized_products;
+    }
 }

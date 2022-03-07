@@ -125,4 +125,6 @@ COMMIT;
 
     </string>
     <string name="LKR">LKR </string>
+    <string name="category_name">Category_name</string>
+    <string name="expand_collapse_details">expand/collapse details</string>
 </resources>

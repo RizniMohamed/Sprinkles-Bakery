@@ -65,9 +65,16 @@ public class Home extends AppCompatActivity {
                 navigationView.getMenu().getItem(6).setIcon(R.drawable.ic_login);
             }
 
+            //hide all the menu items except login
             if(!db.auth().checkLoginStatus()){
                 for (int i = 0; i < 6; i++) navigationView.getMenu().getItem(i).setVisible(false);
             }
+
+            //hide admin sections for normal user
+            if(db.auth().checkLoginStatus() && db.user().getUser().getIsAdmin() == 0){
+                navigationView.getMenu().getItem(5).setVisible(false); // Report generation
+            }
+
         });
 
 
@@ -115,7 +122,7 @@ public class Home extends AppCompatActivity {
                     tabLayout.selectTab(tabLayout.getTabAt(3));
                     viewPager2.setCurrentItem(3);
             } else if (id == R.id.menuReport) { //Report
-                    Toast.makeText(Home.this, "menuReport is Clicked", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(this, Manage.class));
             } else if (id == R.id.menuAuth) { //Login or Logout
                 if(navigationView.getMenu().getItem(6).getTitle() == "Login"){
                         startActivity(new Intent(this, Login.class));

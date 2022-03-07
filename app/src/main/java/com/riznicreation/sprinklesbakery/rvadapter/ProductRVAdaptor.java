@@ -72,7 +72,6 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
             context.startActivity(intent);
         });
 
-
     }
 
     @Override

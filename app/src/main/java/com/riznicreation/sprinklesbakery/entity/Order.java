@@ -2,46 +2,42 @@ package com.riznicreation.sprinklesbakery.entity;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Order {
     private int id;
     private int productID;
-    private Date orderedDate;
-    private int quantity;
+    private String orderedDate;
     private int status;
+    private long totPrice;
+    private ArrayList<Product> productsList = new ArrayList<>();
 
-    public Order(int id, int productID, Date orderedDate, int quantity, int status) {
+    public Order() {}
+
+    public Order(int id, int productID, String orderedDate, int status, long totPrice, ArrayList<Product> productsList) {
         this.id = id;
         this.productID = productID;
         this.orderedDate = orderedDate;
-        this.quantity = quantity;
         this.status = status;
+        this.totPrice = totPrice;
+        this.productsList = productsList;
     }
 
-    public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public int getProductID() {return productID;}
-    public void setProductID(int productID) {this.productID = productID;}
+    public int getProductID() { return productID; }
+    public void setProductID(int productID) { this.productID = productID; }
 
-    public Date getOrderedDate() {return orderedDate;}
-    public void setOrderedDate(Date orderedDate) {this.orderedDate = orderedDate;}
+    public String getOrderedDate() { return orderedDate; }
+    public void setOrderedDate(String orderedDate) { this.orderedDate = orderedDate; }
 
-    public int getQuantity() {return quantity;}
-    public void setQuantity(int quantity) {this.quantity = quantity;}
+    public int getStatus() { return status; }
+    public void setStatus(int status) { this.status = status; }
 
-    public int getStatus() {return status;}
-    public void setStatus(int status) {this.status = status;}
+    public long getTotPrice() { return totPrice; }
+    public void setTotPrice(long totPrice) { this.totPrice = totPrice; }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", productID=" + productID +
-                ", orderedDate=" + orderedDate +
-                ", quantity=" + quantity +
-                ", status=" + status +
-                '}';
-    }
-}
+    public ArrayList<Product> getProductsList() { return productsList; }
+    public void setProductsList(ArrayList<Product> productsList) { this.productsList = productsList; }}

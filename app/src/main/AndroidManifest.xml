@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SprinklesBakery.NoActionBar">
         <activity
+            android:name=".Manage"
+            android:exported="false" />
+        <activity
             android:name=".ProductDetails"
             android:exported="false" />
         <activity

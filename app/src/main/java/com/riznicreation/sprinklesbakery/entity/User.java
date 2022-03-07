@@ -2,6 +2,8 @@ package com.riznicreation.sprinklesbakery.entity;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
+
 public class User {
 
     private int authID;
@@ -15,10 +17,11 @@ public class User {
     private Bitmap picture;
     private int contact;
     private int orderID;
+    private String address;
 
     public User() { }
 
-    public User(int authID, String email, String password, int status, int isAdmin, int userID, String name, Bitmap picture, int contact, int orderID) {
+    public User(int authID, String email, String password, int status, int isAdmin, int userID, String name, Bitmap picture, int contact, int orderID, String address) {
         this.authID = authID;
         this.email = email;
         this.password = password;
@@ -29,6 +32,7 @@ public class User {
         this.picture = picture;
         this.contact = contact;
         this.orderID = orderID;
+        this.address = address;
     }
 
     public int getAuthID() {return authID;}
@@ -61,6 +65,10 @@ public class User {
     public int getOrderID() {return orderID;}
     public void setOrderID(int orderID) {this.orderID = orderID;}
 
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+
+    @NonNull
     @Override
     public String toString() {
         return "User{" +
@@ -75,4 +83,6 @@ public class User {
                 ", orderID=" + orderID +
                 '}';
     }
+
+
 }

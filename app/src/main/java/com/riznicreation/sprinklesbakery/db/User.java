@@ -41,14 +41,16 @@ public class User extends DBHelper{
             user.setContact(c.getInt(2));
 
             byte[] imgByte = c.getBlob(3);
+            if(imgByte != null)
             user.setPicture(BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length));
 
-            user.setOrderID(c.getInt(4));
-            user.setAuthID(c.getInt(5));
-            user.setPassword(c.getString(6));
-            user.setEmail(c.getString(7));
-            user.setStatus(c.getInt(8));
-            user.setIsAdmin(c.getInt(9));
+            user.setAddress(c.getString(4));
+            user.setOrderID(c.getInt(5));
+            user.setAuthID(c.getInt(6));
+            user.setPassword(c.getString(7));
+            user.setEmail(c.getString(8));
+            user.setStatus(c.getInt(9));
+            user.setIsAdmin(c.getInt(10));
         }
         c.close();
         return user;
