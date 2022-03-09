@@ -16,14 +16,37 @@ public class Category extends DBHelper {
         super(context);
     }
 
-    public boolean insertCategory(String name, int discount){
+    public int insertCategory(String name, int discount){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put("name",name);
         cv.put("discount",discount);
 
-        return db.insert("Category",null,cv) != -1;
+        if(categoryAvailability(name)){
+            if( db.insert("category",null,cv) != -1)
+                return 1;
+            else
+                return 0;
+        }else {
+            return 2;
+        }
+
+    }
+
+    public boolean categoryAvailability(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT *  FROM category WHERE name=?" ,new String[]{name});
+        if(c.getCount() == 0){
+            c.close();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteCategory(int categoryID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete("category", "category_id=?", new String[]{String.valueOf(categoryID)}) == 1;
     }
 
     public ArrayList<com.riznicreation.sprinklesbakery.entity.Category> getAll() {
@@ -43,4 +66,16 @@ public class Category extends DBHelper {
     }
 
 
+    public int UpdateCategory(int id, String name, int discount) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put("name",name);
+        cv.put("discount",discount);
+
+        if( db.update("category",cv,"category_id=?",new String[]{String.valueOf(id)}) != -1)
+            return 1;
+        else
+            return 0;
+    }
 }

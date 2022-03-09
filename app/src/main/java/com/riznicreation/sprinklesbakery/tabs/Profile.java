@@ -105,7 +105,7 @@ public class Profile extends Fragment {
             Message.error(getContext(),"Error on updating image");
         }
     }
-    public byte[] getBytes(@NonNull InputStream inputStream)  {
+    private byte[] getBytes(@NonNull InputStream inputStream)  {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
         byte[] buffer = new byte[bufferSize];

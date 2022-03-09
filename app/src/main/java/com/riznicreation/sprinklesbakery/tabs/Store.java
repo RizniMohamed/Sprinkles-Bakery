@@ -47,7 +47,7 @@ public class Store extends Fragment {
         return view;
     }
 
-    private void setToggle(@NonNull TextView textView, RecyclerView recyclerView, int spanCount) {
+    private void setToggle(@NonNull TextView textView, @NonNull RecyclerView recyclerView, int spanCount) {
 
         //toggle the expansion view  when click the text
         textView.setOnClickListener(v -> {
@@ -88,7 +88,7 @@ public class Store extends Fragment {
         categoryRV.setAdapter(crvAdaptor);
     }
 
-    private void initViews(View view) {
+    private void initViews(@NonNull View view) {
         categoryRV = view.findViewById(R.id.rvCategories);
         textAllCategories = view.findViewById(R.id.textAllCategories);
         textMPViewAll = view.findViewById(R.id.textMPViewAll);

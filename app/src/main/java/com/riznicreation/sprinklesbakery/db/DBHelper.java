@@ -23,6 +23,13 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        db.execSQL("PRAGMA foreign_keys=ON");
+
+    }
+
+    @Override
     public void onCreate(@NonNull SQLiteDatabase db) {
         //Create all tables
         initDatabase(db,R.string.create_tables);

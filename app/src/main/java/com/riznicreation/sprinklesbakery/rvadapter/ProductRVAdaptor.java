@@ -28,6 +28,7 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
 
     private ArrayList<Product> products = new ArrayList<>();
     private final Context context;
+    private boolean editable = false;
 
     public ProductRVAdaptor(Context context) {
         this.context = context;
@@ -69,6 +70,11 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
         holder.cvProduct.setOnClickListener(v -> {
             Intent intent = new Intent(context, ProductDetails.class);
             intent.putExtra("productID",product.getProduct_id());
+            if(editable)
+                intent.putExtra("task","edit");
+            else
+                intent.putExtra("task","view");
+
             context.startActivity(intent);
         });
 
@@ -77,6 +83,10 @@ public class ProductRVAdaptor extends RecyclerView.Adapter<ProductRVAdaptor.View
     @Override
     public int getItemCount() {
         return products.size();
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 
     // Class which holds the elements view details

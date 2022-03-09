@@ -127,4 +127,6 @@ COMMIT;
     <string name="LKR">LKR </string>
     <string name="category_name">Category_name</string>
     <string name="expand_collapse_details">expand/collapse details</string>
+    <string name="delete_message">Are sure about the deletion? \nCaution: All products of the category also will be deleted.</string>
+    <string name="addproduct">Add</string>
 </resources>

@@ -8,7 +8,7 @@
     android:background="@color/white"
     android:backgroundTint="@color/white"
     app:cardCornerRadius="10dp"
-    app:cardElevation="5dp">
+    app:cardElevation="5dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,6 @@
             <TextView
                 android:id="@+id/txtCatName"
                 android:layout_weight="1"
-
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -36,7 +35,20 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:foregroundGravity="right"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_add"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <ImageButton
                 android:id="@+id/btnEdit"
+                android:layout_marginEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -60,8 +72,7 @@
                 android:foregroundGravity="right"
                 android:scaleX=".85"
                 android:scaleY=".85"
-                android:layout_marginHorizontal="10dp"
-
+                android:layout_marginEnd="10dp"
                 android:src="@drawable/ic_remove"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -80,7 +91,6 @@
                 android:src="@drawable/ic_down"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

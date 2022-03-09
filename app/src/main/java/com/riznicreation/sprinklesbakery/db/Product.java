@@ -1,7 +1,10 @@
 package com.riznicreation.sprinklesbakery.db;
 
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorWindow;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,6 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -29,6 +33,15 @@ public class Product extends DBHelper{
         String query = "select * from product inner join  category on product.category_id = category.category_id";
         Cursor c = db.rawQuery(query,null);
 
+        //Change the cursor max reading length 2mb to 100mb for read blob data from sqlite
+        try {
+            @SuppressLint("DiscouragedPrivateApi") Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            field.setAccessible(true);
+            field.set(null, 100 * 1024 * 1024); //the 100MB is the new size
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         while (c.moveToNext()){
             com.riznicreation.sprinklesbakery.entity.Product product = new com.riznicreation.sprinklesbakery.entity.Product();
 
@@ -40,15 +53,16 @@ public class Product extends DBHelper{
             product.setUnit_price((float) c.getDouble(4));
 
             //Get image from resource file
-            if (c.getString(5).length() == 3) {
-                int imageFromResource = context.getResources().getIdentifier(c.getString(5), "mipmap", context.getPackageName());
-                BitmapDrawable drawable = (BitmapDrawable) Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), imageFromResource, null));
-                product.setImage(drawable.getBitmap());
-            } else {
+            if(c.getType(5) == Cursor.FIELD_TYPE_BLOB){
                 //get newly added images by user
                 byte[] imgByte = c.getBlob(5);
                 product.setImage(BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length));
+            }else{
+                int imageFromResource = context.getResources().getIdentifier(c.getString(5), "mipmap", context.getPackageName());
+                BitmapDrawable drawable = (BitmapDrawable) Objects.requireNonNull(ResourcesCompat.getDrawable(context.getResources(), imageFromResource, null));
+                product.setImage(drawable.getBitmap());
             }
+
 
 
             product.setCategory_id(c.getInt(6));
@@ -78,5 +92,23 @@ public class Product extends DBHelper{
             if(p.getCategory_id() == id) categorized_products.add(p);
         }
         return categorized_products;
+    }
+
+    public boolean addProduct(String name,String cream ,String flavour,String unit_price,byte[] image, int category_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put("name",name);
+        cv.put("cream",cream);
+        cv.put("flavour",flavour);
+        cv.put("unit_price",unit_price);
+        cv.put("image",image);
+        cv.put("category_id",category_id);
+
+        return db.insert("product", null, cv) != -1;
+    }
+
+    public boolean UpdateProduct(String toString, String toString1, String toString2, String toString3, byte[] inputImageData, int category_id) {
+    return false;
     }
 }
