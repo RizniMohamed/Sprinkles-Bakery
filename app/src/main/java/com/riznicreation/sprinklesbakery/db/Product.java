@@ -108,7 +108,21 @@ public class Product extends DBHelper{
         return db.insert("product", null, cv) != -1;
     }
 
-    public boolean UpdateProduct(String toString, String toString1, String toString2, String toString3, byte[] inputImageData, int category_id) {
-    return false;
+    public boolean updateProduct(String name,String cream ,String flavour,String unit_price,byte[] image, int productID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put("name",name);
+        cv.put("cream",cream);
+        cv.put("flavour",flavour);
+        cv.put("unit_price",unit_price);
+        cv.put("image",image);
+
+        return db.update("product", cv, "product_id=?",new String[]{String.valueOf(productID)}) == 1;
+    }
+
+    public boolean deleteProduct(int productID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete("product","product_id=?",new String[]{String.valueOf(productID)}) == 1;
     }
 }

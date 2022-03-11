@@ -129,4 +129,6 @@ COMMIT;
     <string name="expand_collapse_details">expand/collapse details</string>
     <string name="delete_message">Are sure about the deletion? \nCaution: All products of the category also will be deleted.</string>
     <string name="addproduct">Add</string>
+    <string name="update">Update</string>
+    <string name="deleteProductMsg">Are your sure about the deletion of this product?</string>
 </resources>

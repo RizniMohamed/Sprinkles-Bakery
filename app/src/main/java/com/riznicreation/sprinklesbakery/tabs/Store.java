@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.riznicreation.sprinklesbakery.R;
 import com.riznicreation.sprinklesbakery.db.DBHelper;
 import com.riznicreation.sprinklesbakery.entity.Category;
+import com.riznicreation.sprinklesbakery.entity.Product;
 import com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor;
 import com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor;
 
@@ -71,7 +72,11 @@ public class Store extends Fragment {
 
     private void initSuperDeals() {
         ProductRVAdaptor prvAdaptor = new ProductRVAdaptor(getContext());
-        prvAdaptor.setProducts(db.product().getDiscountProducts());
+        ArrayList<Product> products = db.product().getDiscountProducts();
+        if(products.isEmpty())
+            ((View)rvSuperDeals.getParent()).setVisibility(View.GONE);
+        else
+            prvAdaptor.setProducts(products);
         rvSuperDeals.setAdapter(prvAdaptor);
     }
 

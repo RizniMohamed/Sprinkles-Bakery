@@ -2,10 +2,14 @@ package com.riznicreation.sprinklesbakery;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -34,11 +38,12 @@ public class ProductDetails extends AppCompatActivity {
 
     private ImageView ivProductPic;
     private EditText txtName,txtCream,txtFlavour,txtUnitPrice,txtQuantity,txtDiscountPrice;
-    private TextView btn;
+    private TextView btn,btnDelete;
     private ImageButton btnBack;
     private ActivityResultLauncher<Intent> resultLauncher;
     private byte[] inputImageData;
     private DBHelper DB;
+    private String task;
 
 
     @Override
@@ -48,24 +53,21 @@ public class ProductDetails extends AppCompatActivity {
 
         initViews();
 
-        String task = getIntent().getStringExtra("task");
+        task = getIntent().getStringExtra("task");
 
         switch (task) {
             case "view":
                 //Get product id when click the product from prev intent
                 int productID = getIntent().getIntExtra("productID", -1);
                 //If product is present then set the product details and add button functionality
-                if (productID != -1) setProductDetails(productID,false);
+                if (productID != -1) setProductDetails(productID); else onBackPressed();
 
                 setFieldDisable();
                 break;
             case "add":
 
                 int category_id = getIntent().getIntExtra("category_id", -1);
-                if (category_id == -1) {
-                    onBackPressed();
-                    finish();
-                }
+                if (category_id == -1) onBackPressed();
 
                 ((View) txtQuantity.getParent()).setVisibility(View.GONE);
                 ((View) txtDiscountPrice.getParent()).setVisibility(View.GONE);
@@ -73,11 +75,10 @@ public class ProductDetails extends AppCompatActivity {
                 setProductImage(R.mipmap.cake, 20);
                 ivProductPic.setOnClickListener(v -> chooseImage());
 
-
                 btn.setText(R.string.addproduct);
 
                 btn.setOnClickListener(v -> {
-                    if (validateAdd()) {
+                    if (validate()) {
                         boolean status = DB.product().addProduct(
                                 txtName.getText().toString(),
                                 txtCream.getText().toString(),
@@ -102,20 +103,39 @@ public class ProductDetails extends AppCompatActivity {
                 //Get product id when click the product from prev intent
                 productID = getIntent().getIntExtra("productID", -1);
                 //If product is present then set the product details and add button functionality
-                if (productID != -1) setProductDetails(productID, true);
+                if (productID != -1) setProductDetails(productID); else onBackPressed();
+
+                Product product = new Product();
+                for (Product p: DB.product().getAllProducts()) {
+                    if(p.getProduct_id() == productID)
+                        product = p;
+                }
+
+                txtCream.setText(product.getCream());
+                txtFlavour.setText(product.getFlavour());
+                txtName.setText(product.getProduct_name());
+                txtUnitPrice.setText(String.valueOf(product.getUnit_price()));
 
                 ((View) txtQuantity.getParent()).setVisibility(View.GONE);
                 ((View) txtDiscountPrice.getParent()).setVisibility(View.GONE);
 
-                setProductImage(R.mipmap.cake, 20);
+                setProductImage(product.getImage(), 20);
                 ivProductPic.setOnClickListener(v -> chooseImage());
 
+                btn.setText(R.string.update);
 
-                btn.setText("Update");
-
+                Product finalProduct = product;
                 btn.setOnClickListener(v -> {
-                    if (validateAdd()) {
-                        boolean status = DB.product().UpdateProduct(
+                    if (validate()) {
+                        if(inputImageData == null){
+                            Bitmap bmp = finalProduct.getImage();
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            inputImageData = stream.toByteArray();
+                            bmp.recycle();
+                        }
+
+                        boolean status = DB.product().updateProduct(
                                 txtName.getText().toString(),
                                 txtCream.getText().toString(),
                                 txtFlavour.getText().toString(),
@@ -133,6 +153,10 @@ public class ProductDetails extends AppCompatActivity {
                     }
                 });
 
+                ((View)btnDelete.getParent()).setVisibility(View.VISIBLE);
+
+                btnDelete.setOnClickListener( v -> deleteProduct(finalProduct.getProduct_id()));
+
                 break;
         }
 
@@ -140,7 +164,36 @@ public class ProductDetails extends AppCompatActivity {
 
     }
 
-    private boolean validateAdd() {
+    private void deleteProduct(int productID){
+        AlertDialog dialog = new AlertDialog.Builder(this).create();
+
+        LayoutInflater factory = LayoutInflater.from(this);
+        @SuppressLint("InflateParams") final View model = factory.inflate(R.layout.delete_model, null);
+
+        Button btnYes = model.findViewById(R.id.btnYes);
+        Button btnNo = model.findViewById(R.id.btnNo);
+        TextView msg = model.findViewById(R.id.msg);
+
+        msg.setText(R.string.deleteProductMsg);
+
+        btnYes.setOnClickListener( view -> {
+            if(DB.product().deleteProduct(productID)) {
+                DB.product().getAllProducts();
+                Message.success(this, "Deleted successfully");
+                onBackPressed();
+            }else
+                Message.error(this,"Error on deletion");
+            dialog.dismiss();
+        });
+
+        btnNo.setOnClickListener( view -> dialog.dismiss());
+
+        dialog.setView(model);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    private boolean validate() {
 
         EditText[] texts = new EditText[]{txtName,txtCream,txtFlavour,txtUnitPrice};
         for (EditText et: texts) {
@@ -150,9 +203,18 @@ public class ProductDetails extends AppCompatActivity {
             }
         }
 
-        if(inputImageData == null || inputImageData.length == 0) {
-            Message.error(this,"Product image cannot be empty");
-            return false;
+        if(!task.equals("edit")){
+            if(inputImageData == null || inputImageData.length == 0) {
+                Message.error(this,"Product image cannot be empty");
+                return false;
+            }
+        }
+
+        if(task.equals("view")){
+            if(txtQuantity.getText().toString().isEmpty() || txtQuantity.getText().toString().equals("0")){
+                Message.error(this,"Quantity cannot be empty");
+                return false;
+            }
         }
 
         return true;
@@ -204,15 +266,6 @@ public class ProductDetails extends AppCompatActivity {
         return byteBuffer.toByteArray();
     }
 
-    private boolean validateView() {
-        if(txtQuantity.getText().toString().isEmpty() || txtQuantity.getText().toString().equals("0")){
-            Message.error(this,"Quantity cannot be empty");
-        }else{
-            return true;
-        }
-        return false;
-    }
-
     private void setFieldDisable() {
         txtName.setEnabled(false);
         txtCream.setEnabled(false);
@@ -222,7 +275,7 @@ public class ProductDetails extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void setProductDetails(int id, boolean editable) {
+    private void setProductDetails(int id) {
 
         DB.product().getAllProducts().forEach( p -> {
             if(p.getProduct_id() == id){
@@ -241,33 +294,31 @@ public class ProductDetails extends AppCompatActivity {
 
                 setProductImage(p.getImage(),3);
 
-                if(!editable){
-                    //Add product to card
-                    btn.setOnClickListener(v -> {
-                        if(DB.auth().checkLoginStatus()){
-                            if(validateView()){
-                                boolean isNew = true;
-                                p.setQuantity(Integer.parseInt(txtQuantity.getText().toString()));
+                //Add product to card
+                btn.setOnClickListener(v -> {
+                    if(DB.auth().checkLoginStatus()){
+                        if(validate()){
+                            boolean isNew = true;
+                            p.setQuantity(Integer.parseInt(txtQuantity.getText().toString()));
 
-                                //Prevent duplication
-                                for ( Product cart : Cart.products) {
-                                    if (cart.getProduct_id() == p.getProduct_id()){
-                                        isNew = false;
-                                        cart.setQuantity(p.getQuantity());
-                                    }
+                            //Prevent duplication
+                            for ( Product cart : Cart.products) {
+                                if (cart.getProduct_id() == p.getProduct_id()){
+                                    isNew = false;
+                                    cart.setQuantity(p.getQuantity());
                                 }
-
-                                if (isNew) Cart.products.add(p);
-
-                                Message.success(this,"Product added to the cart");
-                                this.onBackPressed();
                             }
-                        }else{
-                            startActivity(new Intent(this,Login.class));
-                            finish();
+
+                            if (isNew) Cart.products.add(p);
+
+                            Message.success(this,"Product added to the cart");
+                            this.onBackPressed();
                         }
-                    });
-                }
+                    }else{
+                        startActivity(new Intent(this,Login.class));
+                        finish();
+                    }
+                });
             }
         });
     }
@@ -300,6 +351,7 @@ public class ProductDetails extends AppCompatActivity {
         btn = findViewById(R.id.btn);
         txtDiscountPrice = findViewById(R.id.txtDiscountPrice);
         btnBack = findViewById(R.id.btnBack);
+        btnDelete = findViewById(R.id.btnDelete);
 
         DB = new DBHelper(this);
         imageActivityResultLauncher();
@@ -307,8 +359,10 @@ public class ProductDetails extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //TODO set home on back view
-        startActivity(new Intent(this,Manage.class));
+        if(task.equals("view"))
+            startActivity(new Intent(this,Home.class));
+        else
+            startActivity(new Intent(this,Manage.class));
         finish();
     }
 }
