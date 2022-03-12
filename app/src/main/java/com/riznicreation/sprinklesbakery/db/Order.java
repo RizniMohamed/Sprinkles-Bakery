@@ -45,6 +45,26 @@ public class Order extends DBHelper{
         return success != -1;
     }
 
+    public ArrayList<com.riznicreation.sprinklesbakery.entity.Order> getAllOrders(){
+        ArrayList<com.riznicreation.sprinklesbakery.entity.Order> orders = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT Orders.orders_id,Orders.date,status,total_price FROM Orders ";
+
+        Cursor c = db.rawQuery(query,null);
+
+        while (c.moveToNext()){
+            com.riznicreation.sprinklesbakery.entity.Order order = new com.riznicreation.sprinklesbakery.entity.Order();
+            order.setId(c.getInt(0));
+            order.setOrderedDate(c.getString(1));
+            order.setStatus(c.getInt(2));
+            order.setTotPrice(c.getLong(3));
+            orders.add(order);
+        }
+        c.close();
+        return orders;
+    }
+
     public ArrayList<com.riznicreation.sprinklesbakery.entity.Order> getOrder(){
         ArrayList<com.riznicreation.sprinklesbakery.entity.Order> orders = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -96,5 +116,12 @@ public class Order extends DBHelper{
         }
         c.close();
         return products;
+    }
+
+    public boolean setStatus(int id, int status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("status",status);
+        return db.update("orders",cv,"orders_id=?",new String[]{String.valueOf(id)}) == 1;
     }
 }

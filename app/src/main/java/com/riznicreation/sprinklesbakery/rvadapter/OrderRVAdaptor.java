@@ -28,6 +28,7 @@ public class OrderRVAdaptor extends RecyclerView.Adapter<OrderRVAdaptor.ViewHold
 
     private ArrayList<Order> orders = new ArrayList<>();
     private final Context context;
+    private boolean adminManage = false;
 
     public OrderRVAdaptor(Context context) {
         this.context = context;
@@ -35,6 +36,10 @@ public class OrderRVAdaptor extends RecyclerView.Adapter<OrderRVAdaptor.ViewHold
 
     public void setOrders(ArrayList<Order> Order) {
         this.orders = Order;
+    }
+
+    public void setAdminManage(boolean adminManage) {
+        this.adminManage = adminManage;
     }
 
     @NonNull
@@ -48,6 +53,7 @@ public class OrderRVAdaptor extends RecyclerView.Adapter<OrderRVAdaptor.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Order order = orders.get(position);
+        DBHelper DB = new DBHelper(context);
 
         holder.orderID.setText(String.valueOf(order.getId()));
         holder.totPrice.setText(String.valueOf(order.getTotPrice()));
@@ -72,10 +78,49 @@ public class OrderRVAdaptor extends RecyclerView.Adapter<OrderRVAdaptor.ViewHold
         //Generate items of product
         CartRVAdaptor crvAdaptor = new CartRVAdaptor(context);
         crvAdaptor.setPage("Order");
-        crvAdaptor.setCart(new DBHelper(context).order().getOrderItems(order.getId()));
+        crvAdaptor.setCart(DB.order().getOrderItems(order.getId()));
         //set default category list as linear
         holder.rv_order_product.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
         holder.rv_order_product.setAdapter(crvAdaptor);
+
+        if(adminManage){
+            ((View)holder.btnHold.getParent()).setVisibility(View.VISIBLE);
+            ((View)holder.btnComplete.getParent()).setVisibility(View.VISIBLE);
+
+            if(order.getStatus() == 0){
+                holder.btnHold.setOnClickListener( v -> {
+                    if(DB.order().setStatus(order.getId(),1)){
+                        order.setStatus(1);
+                        notifyItemChanged(position);
+                        Message.success(context,"Order updated successfully");
+                    }else{
+                        Message.error(context,"Error on updating order");
+                    }
+                });
+            }else{
+                holder.btnHold.setText("Process");
+                holder.btnHold.setOnClickListener( v -> {
+                    if(DB.order().setStatus(order.getId(),0)){
+                        order.setStatus(0);
+                        notifyItemChanged(position);
+                        Message.success(context,"Order updated successfully");
+                    }else{
+                        Message.error(context,"Error on updating order");
+                    }
+                });
+            }
+
+
+            holder.btnComplete.setOnClickListener( v -> {
+                if(DB.order().setStatus(order.getId(),2)){
+                    orders.remove(order);
+                    notifyItemRemoved(position);
+                    Message.success(context,"Order updated successfully");
+                }else{
+                    Message.error(context,"Error on updating order");
+                }
+            });
+        }
 
 
     }
@@ -88,7 +133,7 @@ public class OrderRVAdaptor extends RecyclerView.Adapter<OrderRVAdaptor.ViewHold
     // Class which holds the elements view details
     public static class ViewHolder extends RecyclerView.ViewHolder{
         //view castings
-        private final TextView orderID,status,date,totPrice;
+        private final TextView orderID,status,date,totPrice,btnComplete,btnHold;
         private final ImageButton btnDown;
         private final RecyclerView rv_order_product;
         private final LinearLayout orderMoreDetails;
@@ -103,6 +148,8 @@ public class OrderRVAdaptor extends RecyclerView.Adapter<OrderRVAdaptor.ViewHold
             status = itemView.findViewById(R.id.status);
             date = itemView.findViewById(R.id.date);
             totPrice = itemView.findViewById(R.id.totPrice);
+            btnComplete = itemView.findViewById(R.id.btnComplete);
+            btnHold = itemView.findViewById(R.id.btnHold);
         }
     }
 }

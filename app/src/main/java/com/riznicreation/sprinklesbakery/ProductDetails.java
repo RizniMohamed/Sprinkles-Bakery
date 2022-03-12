@@ -203,7 +203,7 @@ public class ProductDetails extends AppCompatActivity {
             }
         }
 
-        if(!task.equals("edit")){
+        if(task.equals("add")){
             if(inputImageData == null || inputImageData.length == 0) {
                 Message.error(this,"Product image cannot be empty");
                 return false;

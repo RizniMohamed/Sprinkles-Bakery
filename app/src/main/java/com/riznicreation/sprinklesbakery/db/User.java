@@ -3,16 +3,13 @@ package com.riznicreation.sprinklesbakery.db;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.CursorWindow;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
-import java.io.InputStream;
 import java.lang.reflect.Field;
 
 public class User extends DBHelper{
@@ -42,7 +39,7 @@ public class User extends DBHelper{
 
             byte[] imgByte = c.getBlob(3);
             if(imgByte != null)
-            user.setPicture(BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length));
+                user.setPicture(BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length));
 
             user.setAddress(c.getString(4));
             user.setOrderID(c.getInt(5));
@@ -101,5 +98,30 @@ public class User extends DBHelper{
             return true;
         }
         return false;
+    }
+
+    /**
+     *
+     * @return
+     * 0 -> active counts <br>
+     * 1 -> inactive counts <br>
+     * 2 -> total counts <br>
+     */
+    public int[] getUserCounts(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int active = 0, inactive, total = 0;
+        Cursor c;
+
+        c = db.rawQuery("SELECT COUNT(DISTINCT user_id)  FROM Orders",null);
+        if(c.moveToNext())
+            active = c.getInt(0);
+
+        c = db.rawQuery("SELECT COUNT(DISTINCT user_id)  FROM User",null);
+        if(c.moveToNext())
+            total = c.getInt(0);
+
+        inactive = total - active;
+        c.close();
+        return new int[]{active,inactive,total};
     }
 }

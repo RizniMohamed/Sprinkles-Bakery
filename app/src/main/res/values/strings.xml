@@ -131,4 +131,6 @@ COMMIT;
     <string name="addproduct">Add</string>
     <string name="update">Update</string>
     <string name="deleteProductMsg">Are your sure about the deletion of this product?</string>
+    <string name="btnDown">btnDown</string>
+    <string name="dashboard">Dashboard</string>
 </resources>

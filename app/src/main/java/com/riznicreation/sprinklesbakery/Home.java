@@ -1,24 +1,19 @@
 package com.riznicreation.sprinklesbakery;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputEditText;
 import com.riznicreation.sprinklesbakery.db.DBHelper;
 import com.riznicreation.sprinklesbakery.helper.Message;
 import com.riznicreation.sprinklesbakery.tabs.VPAdapter;
@@ -73,6 +68,7 @@ public class Home extends AppCompatActivity {
             //hide admin sections for normal user
             if(db.auth().checkLoginStatus() && db.user().getUser().getIsAdmin() == 0){
                 navigationView.getMenu().getItem(5).setVisible(false); // Report generation
+                navigationView.getMenu().getItem(0).setVisible(false); // Dashboard
             }
 
         });
@@ -108,7 +104,7 @@ public class Home extends AppCompatActivity {
 
             int id = item.getItemId();
             if (id == R.id.menuDashboard) { //Dashboard
-                    Toast.makeText(Home.this, "menuDashboard is Clicked", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, Dashboard.class));
             } else if (id == R.id.menuStore) { //Store
                     tabLayout.selectTab(tabLayout.getTabAt(0));
                     viewPager2.setCurrentItem(0);
@@ -121,7 +117,7 @@ public class Home extends AppCompatActivity {
             } else if (id == R.id.menuProfile) { //Profile
                     tabLayout.selectTab(tabLayout.getTabAt(3));
                     viewPager2.setCurrentItem(3);
-            } else if (id == R.id.menuReport) { //Report
+            } else if (id == R.id.menuManage) { //Manage
                     startActivity(new Intent(this, Manage.class));
             } else if (id == R.id.menuAuth) { //Login or Logout
                 if(navigationView.getMenu().getItem(6).getTitle() == "Login"){
@@ -129,6 +125,8 @@ public class Home extends AppCompatActivity {
                 }else{
                     if (!db.auth().logout()) Message.error(this,"Error on logout");
                 }
+            } else if (id == R.id.menuSupport) { //Support
+                startActivity(new Intent(this, Support.class));
             } else {
                 return true;
             }
