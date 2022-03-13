@@ -92,4 +92,26 @@ public class Auth extends DBHelper{
         return false;
     }
 
+    /**
+     *
+     * @param email user email
+     * @return
+     * 0 -> Account not found <br>
+     * 1 -> Phone number not found <br>
+     * mobile number -> Valid <br>
+     */
+    public int verify(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM auth INNER JOIN user ON user.auth_id = auth.auth_id WHERE email=?",new String[]{email});
+        if (c.moveToFirst()){
+            if(!c.isNull(7)) {
+                user.setAuthID(c.getInt(0));
+                return c.getInt(7);
+            }else{
+                return 1;
+            }
+        }
+        c.close();
+        return 0;
+    }
 }

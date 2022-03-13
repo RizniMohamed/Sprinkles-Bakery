@@ -1,5 +1,7 @@
 package com.riznicreation.sprinklesbakery.entity;
 
+import androidx.annotation.NonNull;
+
 //Category entity class for hold all the information about each category
 public class Category {
     private int id;
@@ -26,6 +28,7 @@ public class Category {
     public int getDiscount() { return discount; }
     public void setDiscount(int discount) { this.discount = discount; }
 
+    @NonNull
     @Override
     public String toString() {
         return "Category{" +

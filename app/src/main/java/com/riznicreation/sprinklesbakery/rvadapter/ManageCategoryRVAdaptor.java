@@ -1,7 +1,6 @@
 package com.riznicreation.sprinklesbakery.rvadapter;
 
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +20,6 @@ import com.riznicreation.sprinklesbakery.ProductDetails;
 import com.riznicreation.sprinklesbakery.R;
 import com.riznicreation.sprinklesbakery.db.DBHelper;
 import com.riznicreation.sprinklesbakery.entity.Category;
-import com.riznicreation.sprinklesbakery.entity.Product;
 import com.riznicreation.sprinklesbakery.helper.Message;
 
 import java.util.ArrayList;
@@ -157,7 +155,7 @@ public class ManageCategoryRVAdaptor extends RecyclerView.Adapter<ManageCategory
         AlertDialog dialog = new AlertDialog.Builder(context).create();
 
         LayoutInflater factory = LayoutInflater.from(context);
-        @SuppressLint("InflateParams") final View model = factory.inflate(R.layout.delete_model, null);
+        final View model = factory.inflate(R.layout.delete_model, null);
 
         Button btnYes = model.findViewById(R.id.btnYes);
         Button btnNo = model.findViewById(R.id.btnNo);

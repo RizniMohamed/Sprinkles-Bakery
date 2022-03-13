@@ -1,6 +1,5 @@
 package com.riznicreation.sprinklesbakery;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,8 +20,8 @@ import com.riznicreation.sprinklesbakery.tabs.VPAdapter;
 public class Home extends AppCompatActivity {
 
     //Declaration of global variables
-    private TabLayout tabLayout;
-    private ViewPager2 viewPager2;
+    public static TabLayout tabLayout;
+    public static ViewPager2 viewPager2;
     private TextView textHeader;
     private ImageButton btnSearch,btnMenu;
     private final DBHelper db = new DBHelper(this);
@@ -30,7 +29,6 @@ public class Home extends AppCompatActivity {
     private NavigationView navigationView;
 
 
-    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +121,10 @@ public class Home extends AppCompatActivity {
                 if(navigationView.getMenu().getItem(6).getTitle() == "Login"){
                         startActivity(new Intent(this, Login.class));
                 }else{
-                    if (!db.auth().logout()) Message.error(this,"Error on logout");
+                    if(db.auth().logout())
+                        startActivity(new Intent(this, Login.class));
+                    else
+                        Message.error(this, "Error on logout");
                 }
             } else if (id == R.id.menuSupport) { //Support
                 startActivity(new Intent(this, Support.class));

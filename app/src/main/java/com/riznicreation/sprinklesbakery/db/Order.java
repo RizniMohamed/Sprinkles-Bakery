@@ -49,7 +49,7 @@ public class Order extends DBHelper{
         ArrayList<com.riznicreation.sprinklesbakery.entity.Order> orders = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT Orders.orders_id,Orders.date,status,total_price FROM Orders ";
+        String query = "SELECT Orders.orders_id,Orders.date,status,total_price FROM Orders ORDER BY date DESC";
 
         Cursor c = db.rawQuery(query,null);
 
@@ -70,7 +70,8 @@ public class Order extends DBHelper{
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT Orders.orders_id,Orders.date,status,total_price FROM Orders " +
-                "WHERE user_id =  " + this.user().getUser().getUserID();
+                "WHERE user_id =  " + this.user().getUser().getUserID() + " " +
+                "ORDER BY date DESC";
 
         Cursor c = db.rawQuery(query,null);
 

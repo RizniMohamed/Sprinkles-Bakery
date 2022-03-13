@@ -1,6 +1,5 @@
 package com.riznicreation.sprinklesbakery;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -168,7 +167,7 @@ public class ProductDetails extends AppCompatActivity {
         AlertDialog dialog = new AlertDialog.Builder(this).create();
 
         LayoutInflater factory = LayoutInflater.from(this);
-        @SuppressLint("InflateParams") final View model = factory.inflate(R.layout.delete_model, null);
+        final View model = factory.inflate(R.layout.delete_model, null);
 
         Button btnYes = model.findViewById(R.id.btnYes);
         Button btnNo = model.findViewById(R.id.btnNo);
@@ -274,7 +273,6 @@ public class ProductDetails extends AppCompatActivity {
         txtDiscountPrice.setEnabled(false);
     }
 
-    @SuppressLint("SetTextI18n")
     private void setProductDetails(int id) {
 
         DB.product().getAllProducts().forEach( p -> {

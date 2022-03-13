@@ -17,6 +17,7 @@ import com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor;
 public class Order extends Fragment {
 
     private RecyclerView rvOrder;
+    private DBHelper DB;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class Order extends Fragment {
 
     private void initOrders() {
         OrderRVAdaptor orvAdaptor = new OrderRVAdaptor(getContext());
-        orvAdaptor.setOrders(new DBHelper(getContext()).order().getOrder());
+        orvAdaptor.setOrders(DB.order().getOrder());
 
         //set default category list as linear
         rvOrder.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
@@ -45,5 +46,6 @@ public class Order extends Fragment {
 
     private void initViews(View view) {
         rvOrder = view.findViewById(R.id.rvOrder);
+        DB = new DBHelper(getContext());
     }
 }

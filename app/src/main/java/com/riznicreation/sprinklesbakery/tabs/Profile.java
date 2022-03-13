@@ -3,9 +3,9 @@ package com.riznicreation.sprinklesbakery.tabs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +31,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 
 public class Profile extends Fragment {
 
@@ -50,15 +49,13 @@ public class Profile extends Fragment {
         initPic(view);
         initName();
 
-        btnPic.setOnClickListener(v -> {
-            chooseImage();
-        });
+        btnPic.setOnClickListener(v -> chooseImage());
 
         btnLogout.setOnClickListener(v -> {
-            if(!db.auth().logout())
-                Message.error(view.getContext(), "Error on logout");
-            else
+            if(db.auth().logout())
                 startActivity(new Intent(getContext(), Login.class));
+            else
+                Message.error(view.getContext(), "Error on logout");
         });
 
         btnName.setOnClickListener(v -> textDialog("Name"));
@@ -105,6 +102,7 @@ public class Profile extends Fragment {
             Message.error(getContext(),"Error on updating image");
         }
     }
+    @NonNull
     private byte[] getBytes(@NonNull InputStream inputStream)  {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
@@ -134,7 +132,8 @@ public class Profile extends Fragment {
                 txt.setHint("Name");
                 break;
             case "Contact":
-                txt.setHint("Contact");
+                txt.setInputType(InputType.TYPE_CLASS_NUMBER);
+                txt.setHint("07XXXXXXXX");
                 break;
             case "Password":
                 txt.setHint("Password");

@@ -3,7 +3,6 @@ package com.riznicreation.sprinklesbakery.entity;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Order {
     private int id;
@@ -40,4 +39,18 @@ public class Order {
     public void setTotPrice(long totPrice) { this.totPrice = totPrice; }
 
     public ArrayList<Product> getProductsList() { return productsList; }
-    public void setProductsList(ArrayList<Product> productsList) { this.productsList = productsList; }}
+    public void setProductsList(ArrayList<Product> productsList) { this.productsList = productsList;}
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", productID=" + productID +
+                ", orderedDate='" + orderedDate + '\'' +
+                ", status=" + status +
+                ", totPrice=" + totPrice +
+                ", productsList=" + productsList +
+                '}';
+    }
+}

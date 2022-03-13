@@ -1,6 +1,5 @@
 package com.riznicreation.sprinklesbakery.tabs;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.riznicreation.sprinklesbakery.Home;
 import com.riznicreation.sprinklesbakery.R;
 import com.riznicreation.sprinklesbakery.db.DBHelper;
 import com.riznicreation.sprinklesbakery.entity.Product;
@@ -39,7 +39,6 @@ public class Cart extends Fragment {
         return view;
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onResume() {
         super.onResume();
@@ -48,17 +47,30 @@ public class Cart extends Fragment {
 
         btnOrder.setOnClickListener( v -> {
             if(products.size() != 0) {
+
                 DBHelper DB = new DBHelper(getContext());
-                if(DB.order().setOrder(String.valueOf((float) total), String.valueOf(DB.user().getUser().getUserID()), new ArrayList<>(products))){
-                    Message.success(getContext(),"Order added successfully");
 
-                    products.clear();
-                    initCartList(products);
-                    setTotalPrice();
+                if(DB.user().getUser().getAddress() != null){
+                    if(DB.order().setOrder(String.valueOf((float) total), String.valueOf(DB.user().getUser().getUserID()), new ArrayList<>(products))){
+                        Message.success(getContext(),"Order added successfully");
 
+                        products.clear();
+                        initCartList(products);
+                        setTotalPrice();
+
+                        Home.tabLayout.selectTab(Home.tabLayout.getTabAt(0));
+                        Home.viewPager2.setCurrentItem(0);
+
+                    }else{
+                        Message.error(getContext(),"Error occurred in add order");
+                    }
                 }else{
-                    Message.error(getContext(),"Error occurred in add order");
+
+                    Home.tabLayout.selectTab(Home.tabLayout.getTabAt(3));
+                    Home.viewPager2.setCurrentItem(3);
+                    Message.error(getContext(),"Set address for order delivery");
                 }
+
             }else{
                 Message.error(getContext(),"Cart is empty");
             }

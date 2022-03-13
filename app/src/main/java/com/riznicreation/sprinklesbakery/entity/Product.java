@@ -2,6 +2,8 @@ package com.riznicreation.sprinklesbakery.entity;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
+
 public class Product {
     private int product_id;
     private String product_name;
@@ -61,4 +63,20 @@ public class Product {
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Product{" +
+                "product_id=" + product_id +
+                ", product_name='" + product_name + '\'' +
+                ", cream='" + cream + '\'' +
+                ", flavour='" + flavour + '\'' +
+                ", unit_price=" + unit_price +
+                ", image=" + image +
+                ", category_id=" + category_id +
+                ", category_name='" + category_name + '\'' +
+                ", discount=" + discount +
+                ", quantity=" + quantity +
+                '}';
+    }
 }
