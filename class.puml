@@ -1,7 +1,9 @@
 @startuml
 skinparam classAttributeIconSize 0
-
-scale 750 width
+page 2x2
+skinparam pageMargin 10
+skinparam pageExternalColor gray
+skinparam pageBorderColor black
 skinparam linetype polyline
 skinparam linetype ortho
 
@@ -528,7 +530,7 @@ com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinkles
 com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.tabs.Profile
 
 com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor --* com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor
-com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor --* com.riznicreation.sprinklesbakery.tabs.Cart
+com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor o--* com.riznicreation.sprinklesbakery.tabs.Cart
 
 com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor --* com.riznicreation.sprinklesbakery.tabs.Store
 
@@ -542,20 +544,11 @@ com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor --* com.riznicreati
 com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor --* com.riznicreation.sprinklesbakery.tabs.Store
 
 com.riznicreation.sprinklesbakery.tabs.Cart "many" <-- "many" com.riznicreation.sprinklesbakery.ProductDetails
-com.riznicreation.sprinklesbakery.tabs.Cart o-- com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor
 com.riznicreation.sprinklesbakery.tabs.Cart o-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
-
 com.riznicreation.sprinklesbakery.tabs.Order o-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
-
-com.riznicreation.sprinklesbakery.tabs.Order o-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
-
 com.riznicreation.sprinklesbakery.tabs.Profile o-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
-
 com.riznicreation.sprinklesbakery.tabs.Store o-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
-
 com.riznicreation.sprinklesbakery.tabs.VPAdapter --* com.riznicreation.sprinklesbakery.Home
-
-com.riznicreation.sprinklesbakery.Dashboard --o com.riznicreation.sprinklesbakery.Home
 
 com.riznicreation.sprinklesbakery.Home -- com.riznicreation.sprinklesbakery.Dashboard
 com.riznicreation.sprinklesbakery.Home -- com.riznicreation.sprinklesbakery.Login
@@ -572,24 +565,8 @@ com.riznicreation.sprinklesbakery.Login -- com.riznicreation.sprinklesbakery.Reg
 com.riznicreation.sprinklesbakery.Login -- com.riznicreation.sprinklesbakery.tabs.Profile
 
 com.riznicreation.sprinklesbakery.Manage -- com.riznicreation.sprinklesbakery.ProductDetails
-
 com.riznicreation.sprinklesbakery.ProductDetails *-- com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor
 com.riznicreation.sprinklesbakery.ProductDetails *-- com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor
-
-com.riznicreation.sprinklesbakery.Register -- com.riznicreation.sprinklesbakery.Login
-
 com.riznicreation.sprinklesbakery.ViewProduct *-- com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor.ViewHolder
-
-
-
-
-
-
-
-
-
-
-
-
 
 @enduml
