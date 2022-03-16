@@ -1,0 +1,595 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+scale 750 width
+skinparam linetype polyline
+skinparam linetype ortho
+
+class com.riznicreation.sprinklesbakery.ViewProduct {
+- RecyclerView rvProductList
+- ImageButton btnBack
+- ArrayList<Product> viewProducts
+- DBHelper db
+- EditText txtSearch
+# void onCreate(Bundle)
+- void initSearch(String)
+- void initCategoryProducts()
+- void initProducts(ArrayList<Product>)
+- void initView()
+}
+class com.riznicreation.sprinklesbakery.tabs.VPAdapter {
++ <<Create>> VPAdapter(FragmentManager,Lifecycle)
++ Fragment createFragment(int)
++ int getItemCount()
+}
+class com.riznicreation.sprinklesbakery.tabs.Profile {
+- TextView btnPassword
+- DBHelper db
+- ImageView btnPic
+- ActivityResultLauncher<Intent> resultLauncher
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+- void chooseImage()
+- void imageActivityResultLauncher()
+- void storePicInDB(Uri)
+- byte[] getBytes(InputStream)
+- void textDialog(String)
+- void setAddressInDB(String)
+- void setNameInDB(String)
+- void setContactInDB(String)
+- void setPasswordInDB(String)
++ boolean passwordCharValidation(String)
+- void initPic(View)
+- void initName()
+- void initViews(View)
+}
+class com.riznicreation.sprinklesbakery.entity.Category {
+- int id
+- String name
+- int iconID
+- int discount
++ <<Create>> Category(int,String,int,int)
++ int getId()
++ void setId(int)
++ void setName(String)
++ String getName()
++ int getIconID()
++ void setIconID(int)
++ int getDiscount()
++ void setDiscount(int)
++ String toString()
+}
+class com.riznicreation.sprinklesbakery.helper.Message {
++ {static} void error(Context,String)
++ {static} void info(Context,String)
++ {static} void success(Context,String)
+- {static} void createToast(Context,String,int,int)
+}
+class com.riznicreation.sprinklesbakery.db.Order {
+~ Context context
++ <<Create>> Order(Context)
++ boolean setOrder(String,String,ArrayList<Product>)
++ ArrayList<com.riznicreation.sprinklesbakery.entity.Order> getAllOrders()
++ ArrayList<com.riznicreation.sprinklesbakery.entity.Order> getOrder()
++ ArrayList<Product> getOrderItems(int)
++ boolean setStatus(int,int)
+}
+class com.riznicreation.sprinklesbakery.Dashboard {
+- ImageView btnDown_R
+- TextView txt_R_LastYear
+- RecyclerView rv_Order_dashboard
+- DBHelper DB
+- LinearLayout LLR
+- ImageButton btnBack
+# void onCreate(Bundle)
+- void initShowHide()
+- void initOrders()
+- void initUsers()
+- void initRevenue()
+- String[] prices(ArrayList<Order>)
+- void initViews()
++ void onBackPressed()
+}
+class com.riznicreation.sprinklesbakery.entity.Product {
+- int product_id
+- String product_name
+- String cream
+- String flavour
+- float unit_price
+- Bitmap image
+- int category_id
+- String category_name
+- int discount
+- int quantity
++ <<Create>> Product()
++ <<Create>> Product(int,String,String,String,float,Bitmap,int,String,int,int)
++ int getProduct_id()
++ void setProduct_id(int)
++ String getProduct_name()
++ void setProduct_name(String)
++ String getCream()
++ void setCream(String)
++ String getFlavour()
++ void setFlavour(String)
++ float getUnit_price()
++ void setUnit_price(float)
++ Bitmap getImage()
++ void setImage(Bitmap)
++ int getCategory_id()
++ void setCategory_id(int)
++ String getCategory_name()
++ void setCategory_name(String)
++ int getDiscount()
++ void setDiscount(int)
++ int getQuantity()
++ void setQuantity(int)
++ String toString()
+}
+class com.riznicreation.sprinklesbakery.db.Product {
+- Context context
++ {static} ArrayList<com.riznicreation.sprinklesbakery.entity.Product> products
++ <<Create>> Product(Context)
++ ArrayList<com.riznicreation.sprinklesbakery.entity.Product> getAllProducts()
++ ArrayList<com.riznicreation.sprinklesbakery.entity.Product> getDiscountProducts()
++ ArrayList<com.riznicreation.sprinklesbakery.entity.Product> getProducts(int)
++ boolean addProduct(String,String,String,String,byte[],int)
++ boolean updateProduct(String,String,String,String,byte[],int)
++ boolean deleteProduct(int)
+}
+class com.riznicreation.sprinklesbakery.Register {
+- Button btnRegister
+- TextInputEditText txtEmail
+- TextView textLogin
+# void onCreate(Bundle)
+- boolean validate()
++ boolean passwordCharValidation(String)
+- boolean insertInDB(String,String)
+- void initViews()
++ void onBackPressed()
+}
+class com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor {
+- ArrayList<Category> categories
+- Context context
++ <<Create>> CategoryRVAdaptor(Context)
++ void setCategories(ArrayList<Category>)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ int getItemCount()
+}
+class com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor.ViewHolder {
+- ImageView btnIcon
+- TextView name
+- ImageButton btn
++ <<Create>> ViewHolder(View)
+}
+class com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor {
+- ArrayList<Product> products
+- Context context
+- boolean editable
++ <<Create>> ProductRVAdaptor(Context)
++ void setProducts(ArrayList<Product>)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ int getItemCount()
++ void setEditable(boolean)
+}
+class com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor.ViewHolder {
+- ImageView imgProduct
+- TextView textName
+- CardView cvProduct
++ <<Create>> ViewHolder(View)
+}
+class com.riznicreation.sprinklesbakery.db.Category {
++ <<Create>> Category(Context)
++ int insertCategory(String,int)
++ boolean categoryAvailability(String)
++ boolean deleteCategory(int)
++ ArrayList<com.riznicreation.sprinklesbakery.entity.Category> getAll()
++ int UpdateCategory(int,String,int)
+}
+class com.riznicreation.sprinklesbakery.tabs.Order {
+- RecyclerView rvOrder
+- DBHelper DB
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onResume()
+- void initOrders()
+- void initViews(View)
+}
+class com.riznicreation.sprinklesbakery.db.User {
+- {static} com.riznicreation.sprinklesbakery.entity.User user
++ <<Create>> User(Context)
++ com.riznicreation.sprinklesbakery.entity.User getUser()
++ boolean setName(String)
++ boolean setAddress(String)
++ boolean setContact(String)
++ boolean storeImage(byte[])
++ int[] getUserCounts()
+}
+class com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor {
+- ArrayList<Category> categories
+- Context context
+- DBHelper DB
++ <<Create>> ManageCategoryRVAdaptor(Context)
++ void setCategories(ArrayList<Category>)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
+- void initProducts(RecyclerView,Category)
+- void updateProduct(Category,int,RecyclerView)
+- void deleteCategory(Category,int)
++ int getItemCount()
+}
+class com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor.ViewHolder {
+- TextView txtCatName
+- ImageButton btnEdit
+- RecyclerView rv_manage_products
++ <<Create>> ViewHolder(View)
+}
+class com.riznicreation.sprinklesbakery.Support {
+# void onCreate(Bundle)
++ void onBackPressed()
+}
+class com.riznicreation.sprinklesbakery.Manage {
+- RecyclerView rv_manage_category
+- ImageButton btnBack
+- DBHelper DB
+# void onCreate(Bundle)
+- void textDialog()
+- void initCategories()
+- void initViews()
++ void onBackPressed()
+}
+class com.riznicreation.sprinklesbakery.tabs.Cart {
++ {static} ArrayList<Product> products
+- RecyclerView rvCart
+- TextView txtTotal
+- Button btnOrder
+- int total
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onResume()
+- void setTotalPrice()
+- float calcDiscountPrice(float,int,int)
+- void initCartList(ArrayList<Product>)
+- void initViews(View)
+}
+class com.riznicreation.sprinklesbakery.ProductDetails {
+- ImageView ivProductPic
+- EditText txtName
+- TextView btn
+- ImageButton btnBack
+- ActivityResultLauncher<Intent> resultLauncher
+- byte[] inputImageData
+- DBHelper DB
+- String task
+# void onCreate(Bundle)
+- void deleteProduct(int)
+- boolean validate()
+- void chooseImage()
+- void imageActivityResultLauncher()
+- byte[] getBytes(InputStream)
+- void setFieldDisable()
+- void setProductDetails(int)
+- void setProductImage(Object,int)
+- String calcDiscountPrice(float,int)
+- void initViews()
++ void onBackPressed()
+}
+class com.riznicreation.sprinklesbakery.Home {
++ {static} TabLayout tabLayout
++ {static} ViewPager2 viewPager2
+- TextView textHeader
+- ImageButton btnSearch
+- DBHelper db
+- DrawerLayout drawerLayout
+- NavigationView navigationView
+# void onCreate(Bundle)
+- void initMenu()
+- void initTabs()
+- void initViews()
++ void onBackPressed()
+}
+class com.riznicreation.sprinklesbakery.entity.Order {
+- int id
+- int productID
+- String orderedDate
+- int status
+- long totPrice
+- ArrayList<Product> productsList
++ <<Create>> Order()
++ <<Create>> Order(int,int,String,int,long,ArrayList<Product>)
++ int getId()
++ void setId(int)
++ int getProductID()
++ void setProductID(int)
++ String getOrderedDate()
++ void setOrderedDate(String)
++ int getStatus()
++ void setStatus(int)
++ long getTotPrice()
++ void setTotPrice(long)
++ ArrayList<Product> getProductsList()
++ void setProductsList(ArrayList<Product>)
++ String toString()
+}
+class com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor {
+- ArrayList<Product> products
+- Context context
+- TextView txtTotal
+- String page
++ <<Create>> CartRVAdaptor(Context)
++ void setPage(String)
++ void setCart(ArrayList<Product>)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ void setTotalPrice()
+- String calcDiscountPrice(float,int,int)
+- float calcDiscountPriceF(float,int,int)
++ int getItemCount()
++ void setTotal(TextView)
+}
+class com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor.ViewHolder {
+- ImageView imgProduct
+- TextView textName
+- ImageView btnRemove
+- RelativeLayout rlDelete
++ <<Create>> ViewHolder(View)
+}
+class com.riznicreation.sprinklesbakery.SplashScreen {
+# void onCreate(Bundle)
+}
+class com.riznicreation.sprinklesbakery.tabs.Store {
+- RecyclerView categoryRV
+- TextView textAllCategories
+- DBHelper db
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+- void setToggle(TextView,RecyclerView,int)
+- void initSuperDeals()
+- void initMostPopular()
+- void initAllCategories()
+- void initViews(View)
+}
+class com.riznicreation.sprinklesbakery.db.Auth {
+- {static} User user
++ <<Create>> Auth(Context)
++ boolean checkLoginStatus()
++ boolean login(String,String)
++ boolean registerUser(String,String)
++ boolean accountAvailability(String)
++ boolean logout()
++ boolean setPassword(String)
++ int verify(String)
+}
+class com.riznicreation.sprinklesbakery.entity.User {
+- int authID
+- String email
+- String password
+- int status
+- int isAdmin
+- int userID
+- String name
+- Bitmap picture
+- int contact
+- int orderID
+- String address
++ <<Create>> User()
++ <<Create>> User(int,String,String,int,int,int,String,Bitmap,int,int,String)
++ int getAuthID()
++ void setAuthID(int)
++ String getEmail()
++ void setEmail(String)
++ String getPassword()
++ void setPassword(String)
++ int getStatus()
++ void setStatus(int)
++ int getIsAdmin()
++ void setIsAdmin(int)
++ int getUserID()
++ void setUserID(int)
++ String getName()
++ void setName(String)
++ Bitmap getPicture()
++ void setPicture(Bitmap)
++ int getContact()
++ void setContact(int)
++ int getOrderID()
++ void setOrderID(int)
++ String getAddress()
++ void setAddress(String)
++ String toString()
+}
+class com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor {
+- ArrayList<Order> orders
+- Context context
+- boolean adminManage
++ <<Create>> OrderRVAdaptor(Context)
++ void setOrders(ArrayList<Order>)
++ void setAdminManage(boolean)
++ ViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ViewHolder,int)
++ int getItemCount()
+}
+class com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor.ViewHolder {
+- TextView orderID
+- ImageButton btnDown
+- RecyclerView rv_order_product
+- LinearLayout orderMoreDetails
++ <<Create>> ViewHolder(View)
+}
+class com.riznicreation.sprinklesbakery.db.DBHelper {
+- {static} String DATABASE_NAME
+- {static} int DATABASE_VERSION
+- Context context
++ <<Create>> DBHelper(Context)
++ void onOpen(SQLiteDatabase)
++ void onCreate(SQLiteDatabase)
+- void initDatabase(SQLiteDatabase,int)
++ void onUpgrade(SQLiteDatabase,int,int)
++ Auth auth()
++ User user()
++ Category category()
++ Product product()
++ Order order()
+}
+class com.riznicreation.sprinklesbakery.Login {
+- Button btnLogin
+- TextInputEditText txtEmail
+- TextView textForgetPassword
+~ int otp
+- String number
+- DBHelper DB
+# void onCreate(Bundle)
+- void textDialog()
+- void sendMessage(String,String)
++ void onRequestPermissionsResult(int,String[],int[])
+- boolean validate()
+- boolean validateInDB(String,String)
+- void initViews()
++ void onBackPressed()
+}
+
+
+androidx.appcompat.app.AppCompatActivity <|-- com.riznicreation.sprinklesbakery.ViewProduct
+androidx.viewpager2.adapter.FragmentStateAdapter <|-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
+androidx.fragment.app.Fragment <|-- com.riznicreation.sprinklesbakery.tabs.Profile
+com.riznicreation.sprinklesbakery.db.DBHelper <|-- com.riznicreation.sprinklesbakery.db.Order
+androidx.appcompat.app.AppCompatActivity <|-- com.riznicreation.sprinklesbakery.Dashboard
+com.riznicreation.sprinklesbakery.db.DBHelper <|-- com.riznicreation.sprinklesbakery.db.Product
+androidx.appcompat.app.AppCompatActivity <|-- com.riznicreation.sprinklesbakery.Register
+com.riznicreation.sprinklesbakery.rvadapter.Adapter <|-- com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor
+com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor +.. com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor.ViewHolder
+com.riznicreation.sprinklesbakery.rvadapter.ViewHolder <|-- com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor.ViewHolder
+com.riznicreation.sprinklesbakery.rvadapter.Adapter <|-- com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor
+com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor +.. com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor.ViewHolder
+com.riznicreation.sprinklesbakery.rvadapter.ViewHolder <|-- com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor.ViewHolder
+com.riznicreation.sprinklesbakery.db.DBHelper <|-- com.riznicreation.sprinklesbakery.db.Category
+androidx.fragment.app.Fragment <|-- com.riznicreation.sprinklesbakery.tabs.Order
+com.riznicreation.sprinklesbakery.db.DBHelper <|-- com.riznicreation.sprinklesbakery.db.User
+com.riznicreation.sprinklesbakery.rvadapter.Adapter <|-- com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor
+com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor +.. com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor.ViewHolder
+com.riznicreation.sprinklesbakery.rvadapter.ViewHolder <|-- com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor.ViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- com.riznicreation.sprinklesbakery.Support
+androidx.appcompat.app.AppCompatActivity <|-- com.riznicreation.sprinklesbakery.Manage
+androidx.fragment.app.Fragment <|-- com.riznicreation.sprinklesbakery.tabs.Cart
+androidx.appcompat.app.AppCompatActivity <|-- com.riznicreation.sprinklesbakery.ProductDetails
+androidx.appcompat.app.AppCompatActivity <|-- com.riznicreation.sprinklesbakery.Home
+com.riznicreation.sprinklesbakery.rvadapter.Adapter <|-- com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor
+com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor +.. com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor.ViewHolder
+com.riznicreation.sprinklesbakery.rvadapter.ViewHolder <|-- com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor.ViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- com.riznicreation.sprinklesbakery.SplashScreen
+androidx.fragment.app.Fragment <|-- com.riznicreation.sprinklesbakery.tabs.Store
+com.riznicreation.sprinklesbakery.db.DBHelper <|-- com.riznicreation.sprinklesbakery.db.Auth
+com.riznicreation.sprinklesbakery.rvadapter.Adapter <|-- com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor
+com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor +.. com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor.ViewHolder
+com.riznicreation.sprinklesbakery.rvadapter.ViewHolder <|-- com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor.ViewHolder
+android.database.sqlite.SQLiteOpenHelper <|-- com.riznicreation.sprinklesbakery.db.DBHelper
+androidx.appcompat.app.AppCompatActivity <|-- com.riznicreation.sprinklesbakery.Login
+
+com.riznicreation.sprinklesbakery.entity.Category "many" <-- "1" com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor
+com.riznicreation.sprinklesbakery.entity.Category "many" <-- "1" com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor
+com.riznicreation.sprinklesbakery.entity.Category "many" <-- "1" com.riznicreation.sprinklesbakery.db.Category
+com.riznicreation.sprinklesbakery.entity.Category --o com.riznicreation.sprinklesbakery.tabs.Store
+
+com.riznicreation.sprinklesbakery.entity.Order --o com.riznicreation.sprinklesbakery.Dashboard
+com.riznicreation.sprinklesbakery.entity.Order "many" <-- "1" com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor
+com.riznicreation.sprinklesbakery.entity.Order "many" <-- "1" com.riznicreation.sprinklesbakery.db.Order
+
+com.riznicreation.sprinklesbakery.entity.Product --o com.riznicreation.sprinklesbakery.ProductDetails
+com.riznicreation.sprinklesbakery.entity.Product --o com.riznicreation.sprinklesbakery.ViewProduct
+com.riznicreation.sprinklesbakery.entity.Product "many" <-- "1" com.riznicreation.sprinklesbakery.db.Order
+com.riznicreation.sprinklesbakery.entity.Product "many" <-- "1" com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor
+com.riznicreation.sprinklesbakery.entity.Product "many" <-- "1" com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor
+com.riznicreation.sprinklesbakery.entity.Product --o com.riznicreation.sprinklesbakery.tabs.Cart
+com.riznicreation.sprinklesbakery.entity.Product --o com.riznicreation.sprinklesbakery.tabs.Store
+
+com.riznicreation.sprinklesbakery.entity.User "many" <-- "1" com.riznicreation.sprinklesbakery.db.Auth
+com.riznicreation.sprinklesbakery.entity.User "many" <-- "1" com.riznicreation.sprinklesbakery.db.User
+
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.Dashboard
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.Home
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.Login
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.Manage
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.ProductDetails
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.Register
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.ViewProduct
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.tabs.Cart
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.tabs.Profile
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.tabs.Orderd
+com.riznicreation.sprinklesbakery.db.DBHelper "1" --> "1" com.riznicreation.sprinklesbakery.tabs.Store
+com.riznicreation.sprinklesbakery.db.DBHelper "many" <-- "1" com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor
+com.riznicreation.sprinklesbakery.db.DBHelper "many" <-- "1" com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor
+
+com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.Home
+com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.Login
+com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.Manage
+com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.ProductDetails
+com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.Register
+com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor
+com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor
+com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor
+com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.tabs.Cart
+com.riznicreation.sprinklesbakery.helper.Message --* com.riznicreation.sprinklesbakery.tabs.Profile
+
+com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor --* com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor
+com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor --* com.riznicreation.sprinklesbakery.tabs.Cart
+
+com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor --* com.riznicreation.sprinklesbakery.tabs.Store
+
+com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor --* com.riznicreation.sprinklesbakery.Manage
+
+com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor --* com.riznicreation.sprinklesbakery.Dashboard
+com.riznicreation.sprinklesbakery.rvadapter.OrderRVAdaptor --* com.riznicreation.sprinklesbakery.tabs.Order
+
+com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor --* com.riznicreation.sprinklesbakery.ViewProduct
+com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor --* com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor
+com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor --* com.riznicreation.sprinklesbakery.tabs.Store
+
+com.riznicreation.sprinklesbakery.tabs.Cart "many" <-- "many" com.riznicreation.sprinklesbakery.ProductDetails
+com.riznicreation.sprinklesbakery.tabs.Cart o-- com.riznicreation.sprinklesbakery.rvadapter.CartRVAdaptor
+com.riznicreation.sprinklesbakery.tabs.Cart o-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
+
+com.riznicreation.sprinklesbakery.tabs.Order o-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
+
+com.riznicreation.sprinklesbakery.tabs.Order o-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
+
+com.riznicreation.sprinklesbakery.tabs.Profile o-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
+
+com.riznicreation.sprinklesbakery.tabs.Store o-- com.riznicreation.sprinklesbakery.tabs.VPAdapter
+
+com.riznicreation.sprinklesbakery.tabs.VPAdapter --* com.riznicreation.sprinklesbakery.Home
+
+com.riznicreation.sprinklesbakery.Dashboard --o com.riznicreation.sprinklesbakery.Home
+
+com.riznicreation.sprinklesbakery.Home -- com.riznicreation.sprinklesbakery.Dashboard
+com.riznicreation.sprinklesbakery.Home -- com.riznicreation.sprinklesbakery.Login
+com.riznicreation.sprinklesbakery.Home -- com.riznicreation.sprinklesbakery.Manage
+com.riznicreation.sprinklesbakery.Home -- com.riznicreation.sprinklesbakery.ProductDetails
+com.riznicreation.sprinklesbakery.Home -- com.riznicreation.sprinklesbakery.Register
+com.riznicreation.sprinklesbakery.Home -- com.riznicreation.sprinklesbakery.SplashScreen
+com.riznicreation.sprinklesbakery.Home -- com.riznicreation.sprinklesbakery.Support
+com.riznicreation.sprinklesbakery.Home -- com.riznicreation.sprinklesbakery.ViewProduct
+com.riznicreation.sprinklesbakery.Home o-- com.riznicreation.sprinklesbakery.tabs.Cart
+
+com.riznicreation.sprinklesbakery.Login -- com.riznicreation.sprinklesbakery.ProductDetails
+com.riznicreation.sprinklesbakery.Login -- com.riznicreation.sprinklesbakery.Register
+com.riznicreation.sprinklesbakery.Login -- com.riznicreation.sprinklesbakery.tabs.Profile
+
+com.riznicreation.sprinklesbakery.Manage -- com.riznicreation.sprinklesbakery.ProductDetails
+
+com.riznicreation.sprinklesbakery.ProductDetails *-- com.riznicreation.sprinklesbakery.rvadapter.ManageCategoryRVAdaptor
+com.riznicreation.sprinklesbakery.ProductDetails *-- com.riznicreation.sprinklesbakery.rvadapter.ProductRVAdaptor
+
+com.riznicreation.sprinklesbakery.Register -- com.riznicreation.sprinklesbakery.Login
+
+com.riznicreation.sprinklesbakery.ViewProduct *-- com.riznicreation.sprinklesbakery.rvadapter.CategoryRVAdaptor.ViewHolder
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml
