@@ -18,10 +18,7 @@ import com.riznicreation.sprinklesbakery.db.DBHelper;
 import com.riznicreation.sprinklesbakery.entity.Order;
 import com.riznicreation.sprinklesbakery.helper.Message;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 //Recycle adapter class for generate repeater elements with various data
 public class OrderRVAdaptor extends RecyclerView.Adapter<OrderRVAdaptor.ViewHolder>{
