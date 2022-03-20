@@ -126,19 +126,24 @@ public class Profile extends Fragment {
         LayoutInflater factory = LayoutInflater.from(getContext());
         final View model = factory.inflate(R.layout.text_model, null);
 
-        EditText txt = model.findViewById(R.id.txt);
+        EditText etxt1 = model.findViewById(R.id.txt);
+        EditText etxt2 = model.findViewById(R.id.txtNum);
         switch (set) {
             case "Name":
-                txt.setHint("Name");
+                etxt1.setHint("Name");
                 break;
             case "Contact":
-                txt.setInputType(InputType.TYPE_CLASS_NUMBER);
-                txt.setHint("07XXXXXXXX");
+                etxt1.setInputType(InputType.TYPE_CLASS_NUMBER);
+                etxt1.setHint("07XXXXXXXX");
                 break;
             case "Password":
-                txt.setHint("Password");
+                etxt1.setHint("Password");
+                etxt2.setVisibility(View.VISIBLE);
+                etxt2.setInputType(InputType.TYPE_CLASS_TEXT);
+                etxt2.setHint("Confirm password");
+                break;
             case "Address":
-                txt.setHint("Address");
+                etxt1.setHint("Address");
                 break;
         }
 
@@ -146,24 +151,27 @@ public class Profile extends Fragment {
         Button btnCancel = model.findViewById(R.id.btnCancel);
 
         btnApply.setOnClickListener(v1 -> {
-            if(!txt.getText().toString().isEmpty()){
+            String txt1 = etxt1.getText().toString();
+            String txt2 = etxt2.getText().toString();
+            if(!txt1.isEmpty()){
                 switch (set) {
                     case "Name":
-                        setNameInDB(txt.getText().toString());
+                        setNameInDB(txt1,dialog);
                         initName();
                         break;
                     case "Contact":
-                        setContactInDB(txt.getText().toString());
+                        setContactInDB(txt1,dialog);
                         break;
                     case "Address":
-                        setAddressInDB(txt.getText().toString());
+                        setAddressInDB(txt1,dialog);
                         break;
                     case "Password":
-                        //TODO 2nd verification needed
-                        setPasswordInDB(txt.getText().toString());
+                        if(txt1.equals(txt2))
+                            setPasswordInDB(txt1,dialog);
+                        else
+                            Message.error(getContext(),"Passwords not match");
                         break;
                 }
-                dialog.dismiss();
             }else
                 Message.error(getContext(),"Field cannot be empty");
 
@@ -176,35 +184,39 @@ public class Profile extends Fragment {
 
     }
 
-    private void setAddressInDB(String address) {
+    private void setAddressInDB(String address, AlertDialog dialog) {
         if(db.user().setAddress(address)) {
             Message.success(getContext(), "Address updated successfully");
+            dialog.dismiss();
             return;
         }
         Message.error(getContext(),"Error on name updating");
     }
 
-    private void setNameInDB(String name) {
+    private void setNameInDB(String name, AlertDialog dialog) {
         if(db.user().setName(name)) {
             Message.success(getContext(), "Name updated successfully");
+            dialog.dismiss();
             return;
         }
         Message.error(getContext(),"Error on name updating");
     }
 
-    private void setContactInDB(String contact) {
+    private void setContactInDB(String contact, AlertDialog dialog) {
         if(db.user().setContact(contact)) {
             Message.success(getContext(), "Name contact successfully");
+            dialog.dismiss();
             return;
         }
         Message.error(getContext(),"Error on contact updating");
     }
 
-    private void setPasswordInDB(String password) {
+    private void setPasswordInDB(String password, AlertDialog dialog) {
         if(passwordCharValidation(password)){
-            if(db.auth().setPassword(password))
-                Message.success(getContext(),"password updated successfully");
-            else
+            if(db.auth().setPassword(password)) {
+                Message.success(getContext(), "password updated successfully");
+                dialog.dismiss();
+            }else
                 Message.error(getContext(),"Error on password updating");
         }else
             Message.error(getContext(),"Password must contain at least 8 characters, 1 lower case, 1 upper case and 1 special character");
@@ -227,7 +239,7 @@ public class Profile extends Fragment {
     }
 
     private void initPic(@NonNull View view) {
-
+        db.user().getUser().setPicture(null);
         Glide.with(view.getContext())
                 .asBitmap()
                 .centerCrop()

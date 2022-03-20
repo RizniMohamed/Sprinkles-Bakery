@@ -1,6 +1,5 @@
 @startuml
 skinparam classAttributeIconSize 0
-page 2x2
 skinparam pageMargin 10
 skinparam pageExternalColor gray
 skinparam pageBorderColor black
